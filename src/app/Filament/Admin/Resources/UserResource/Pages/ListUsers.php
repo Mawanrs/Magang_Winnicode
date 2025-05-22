@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\UserResource\Pages;
+namespace App\Filament\Admin\Resources\PembalapResource\Pages;
 
-use App\Filament\Admin\Resources\UserResource;
+use App\Filament\Admin\Resources\PembalapResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListUsers extends ListRecords
+class ListPembalap extends ListRecords
 {
-    protected static string $resource = UserResource::class;
+    protected static string $resource = PembalapResource::class;
 
     protected function getHeaderActions(): array
     {

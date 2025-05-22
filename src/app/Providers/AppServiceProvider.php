@@ -41,7 +41,6 @@ class AppServiceProvider extends ServiceProvider
         };
         MountableAction::configureUsing(function (MountableAction $action) {
             $action->modalFooterActionsAlignment(Alignment::Right);
-            View::addLocation(base_path('frontend/resource/views'));
         });
     }
 }

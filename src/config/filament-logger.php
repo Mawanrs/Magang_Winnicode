@@ -9,7 +9,7 @@ return [
     'navigation_sort' => null,
 
     'resources' => [
-        'enabled' => true,
+        'enabled' => false,
         'log_name' => 'Resource',
         'logger' => \Z3d0X\FilamentLogger\Loggers\ResourceLogger::class,
         'color' => 'success',

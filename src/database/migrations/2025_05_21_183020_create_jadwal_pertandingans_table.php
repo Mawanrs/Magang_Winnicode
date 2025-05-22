@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('jadwal_pertandingans', function (Blueprint $table) {
             $table->id();
-            $table->timedate('tanggal_dan_waktu');
-            $table->enum('nomor');
+            $table->dateTime('tanggal_dan_waktu');
+            $table->enum('nomor', ['1', '2', '3']);
             $table->string('nama_negara');
             $table->string('sponsor');
             $table->timestamps();
