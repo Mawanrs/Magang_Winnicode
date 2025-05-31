@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\UserResource\Pages;
-use App\Models\User;
+use App\Models\HasilKlasemen;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class HasilResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = HasilKlasemen::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hasil__klasemens', function (Blueprint $table) {
+        Schema::create('halaman_utamas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('hasil__klasemens');
+        Schema::dropIfExists('halaman_utamas');
     }
 };
