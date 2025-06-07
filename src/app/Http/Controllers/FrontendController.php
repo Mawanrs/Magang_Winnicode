@@ -11,7 +11,8 @@ class FrontendController extends Controller
     {
 
     $headline = News::latest()->first();
-    return view('frontend.halamanutama', compact('headline'));
+    $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
+    return view('frontend.halamanutama', compact('headline', 'schedules'));
     
     }
 
@@ -49,14 +50,17 @@ class FrontendController extends Controller
             'slug' => 'video-2',
         ],
     ];
-    // variabel lain (misal: $news, $schedules) juga bisa ditambah
-    return view('frontend.halamanutama', compact('videos'));
+    $headline = News::latest()->first();
+    $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
+
+    return view('frontend.halamanutama', compact('videos', 'headline', 'schedules'));
     }
 
     // Jadwal pertandingan
      public function schedule()
-{
-    $schedules = []; // kosong jika tidak ada data
-    return view('frontend.halamanutama', compact('schedules'));
-}
+    {
+        $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
+        $headline = News::latest()->first(); // TAMBAHKAN INI!
+        return view('frontend.jadwalpertandingan', compact('schedules', 'headline'));
+    }
 }

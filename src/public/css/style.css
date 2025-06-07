@@ -32,6 +32,19 @@ body {
     color: #ffffff !important;
 }
 
+/* Sidebar Styles */
+#sidebarMenu {
+  box-shadow: 2px 0 24px #2221;
+  transition: left .28s cubic-bezier(.9,0,.42,1.13);
+}
+#sidebarMenu.open {
+  left: 0 !important;
+}
+#sidebarOverlay.open {
+  display: block !important;
+}
+
+
 .btn-sign {
     margin-left: 5px;
 }

@@ -1,0 +1,13 @@
+body { background: #f7f7f7; }
+    .card-dark { max-width: 390px; margin: 60px auto; border-radius: 16px; background: #101010; padding: 36px 32px 24px 32px; color: #fff; text-align: center; }
+    .brand-title { font-weight: bold; font-size: 2.2rem; letter-spacing: .5px; margin-bottom: 14px;}
+    .logo-img { width: 145px; margin-bottom: 10px;}
+    .brand-winnicode { font-size: 1.4rem; font-weight: bold; color: #ef2571; }
+    .brand-garuda { display:block; font-size: 1rem; font-weight: 400; letter-spacing: 2px; color: #fff;}
+    .form-label { color: #fff; text-align:left; width:100%; font-weight:500; }
+    .form-control { border-radius: 7px; padding: 10px; background: #191919; border: 1.5px solid #333; color: #fff; }
+    .form-control:focus { border-color: #18b223; background: #191919; color: #fff;}
+    .btn-green { background: #18b223; color: #fff; font-weight: 600; border-radius: 7px; border: none; margin-bottom: 18px; width: 100%; font-size: 1.08em; padding: 10px 0; }
+    .btn-green:hover { background: #0e8018; }
+    .terms { font-size: 0.95em; color: #ccc; margin-bottom: 18px;}
+    .text-link { color: #18b223; text-decoration: underline; cursor: pointer; }

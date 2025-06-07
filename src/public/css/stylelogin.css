@@ -1,0 +1,92 @@
+body {
+  background: #f7f7f7;
+}
+
+.card-dark {
+  max-width: 520px;
+  margin: 80px auto;
+  border-radius: 28px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.16);
+  background: #101010;
+  padding: 60px 48px 40px 48px;
+  color: #fff;
+  text-align: center;
+}
+
+.brand-title {
+  font-weight: bold;
+  font-size: 3.3rem;
+  letter-spacing: .7px;
+  margin-bottom: 20px;
+  line-height: 1.15;
+}
+
+.logo-img {
+  display: block;
+  margin: 0 auto 22px auto;
+  width: 390px;
+  max-width: 80%;
+}
+
+.brand-winnicode {
+  font-size: 2.1rem;
+  font-weight: bold;
+  color: #ef2571;
+  margin-bottom: 2px;
+}
+
+.brand-garuda {
+  display:block;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #fff;
+  margin-bottom: 38px;
+}
+
+.desc {
+  font-size: 1.45em;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.desc span {
+  font-weight: 400;
+  font-size: 1.07em;
+}
+
+.btn-green {
+  background: #18b223;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 11px;
+  border: none;
+  margin-bottom: 22px;
+  width: 100%;
+  font-size: 1.28em;
+  padding: 16px 0;
+  transition: .2s;
+}
+
+.btn-green:hover {
+  background: #0e8018;
+}
+
+.btn-outline-green {
+  border: 2.5px solid #18b223;
+  color: #18b223;
+  background: none;
+  border-radius: 11px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 1.23em;
+  padding: 16px 0;
+  margin-bottom: 10px;
+  transition: .2s;
+}
+
+.btn-outline-green:hover {
+  background: #18b223;
+  color: #fff;
+}
