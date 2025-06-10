@@ -2,20 +2,30 @@
 
 @section('content')
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background: #101010; border-bottom:5px solid #d9002b;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: #101010; border-bottom:5px solid #d9002b; padding-top:0.4rem; padding-bottom:0.4rem;">
   <div class="container">
-    <a class="navbar-brand" href="/">WinniGP</a>
+    <!-- Sidebar Button -->
+    <button id="openSidebarBtn" class="btn btn-link p-0 me-2" type="button" style="font-size:2.1rem;">
+      <i class="bi bi-list" style="color:#2196f3;"></i>
+    </button>
+    <!-- Logo gambar -->
+    <a class="navbar-brand d-flex align-items-center me-3" href="/" style="font-size:1.5rem;">
+      <img src="{{ asset('storage/logo-winnicode.png') }}" alt="Logo WinniGP" style="height:38px; margin-right:8px; margin-top:-2px;">
+      <span style="font-weight:900; letter-spacing:1px;">WinniGP</span>
+    </a>
+    <!-- Burger collapse for mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <!-- Menu utama -->
     <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="/jadwal">Jadwal & Klasemen</a></li>
-        <li class="nav-item"><a class="nav-link" href="/pembalap">Pembalap & Tim</a></li>
-        <li class="nav-item"><a class="nav-link" href="/berita">Berita</a></li>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="font-size:1.12em; font-weight:500; letter-spacing:0.5px;">
+        <li class="nav-item"><a class="nav-link px-3" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal & Klasemen</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/pembalap">Pembalap & Tim</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/berita">Berita</a></li>
       </ul>
-      <ul class="navbar-nav ms-auto align-items-center">
+      <ul class="navbar-nav ms-auto align-items-center" style="font-size:1.08em; font-weight:600;">
         @guest
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/login') }}">Login</a>
@@ -27,28 +37,25 @@
         <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                   style="color: #aaf3ff; font-weight: 500;">Keluar</a>
+                   style="color: #eee8e8; font-weight: 600;">Keluar</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
             </li>
             <li class="nav-item d-flex align-items-center">
-                <a href="{{ url('/profile') }}" class="nav-link fw-bold" style="color: #fff;">
-                    Selamat Datang
-                </a>
-                <img src="{{ asset('storage/e3974b7d-e882-43a1-b5c8-2da6e5e64349.png') }}" alt="helm" style="width:28px; height:28px; margin-left:10px;">
-            </li>
+              <a href="{{ url('/profile') }}" class="nav-link fw-bold d-flex align-items-center" style="color: #fff;">
+                  Selamat Datang
+                  <img src="{{ asset('storage/helmet.png') }}" alt="helm" style="width:28px; height:28px; margin-left:10px;">
+              </a>
+          </li>
         @endguest
       </ul>
     </div>
   </div>
 </nav>
+
 <!-- End Navbar -->
 <!-- Sidebar -->
-<!-- Hamburger Icon (sidebar trigger) -->
-<button id="openSidebarBtn" class="btn btn-link" style="font-size:2rem; position:fixed; top:20px; left:20px; z-index:1100;">
-  <i class="bi bi-list"></i>
-</button>
 
 <!-- Sidebar Overlay -->
 <div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.08); z-index:1099;"></div>
@@ -64,20 +71,8 @@
     <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Hasil</a></li>
     <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Klasemen</a></li>
     <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">VideoPass</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Video</a></li>
     <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Berita</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Fans <span style="float:right;">&#8250;</span></a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Balap Lainnya <span style="float:right;">&#8250;</span></a></li>
   </ul>
-  <div class="ps-4 pe-4 mt-4">
-    <a href="#" class="d-flex align-items-center mb-3" style="color:#111;font-weight:600;font-size:.97em;">
-      <i class="bi bi-question-circle me-2"></i>PUSAT BANTUAN
-    </a>
-    <button class="btn btn-light border rounded-pill w-100 d-flex align-items-center justify-content-between">
-      <span><i class="bi bi-globe2 me-2"></i>INDONESIAN</span>
-      <i class="bi bi-chevron-down ms-2"></i>
-    </button>
   </div>
 </aside>
 <!-- End Sidebar -->
@@ -85,7 +80,7 @@
 <!-- Hero Section / Headline -->
 @if($headline)
   <div class="container-fluid p-0 hero-section mb-4 position-relative" style="background:#000;">
-    <img src="{{ asset('storage/'.$headline->image) }}" alt="{{ $headline->title }}" class="w-100" style="object-fit:cover;height:330px; border-radius: 0 0 16px 16px; filter: brightness(.88);">
+    <img src="{{ asset('storage/01JVVTVQJGB555X8RWAN3ZHVJP.webp'.$headline->image) }}" alt="{{ $headline->title }}" class="w-100" style="object-fit:cover;height:330px; filter: brightness(.88);">
     <div class="position-absolute" style="bottom:32px; left:32px; color:#fff; text-shadow:2px 2px 8px #000a; max-width:70%;">
       <h2 style="font-size:2.2rem; font-weight:bold; text-transform:uppercase;">{{ $headline->title }}</h2>
       <p class="lead">{{ \Illuminate\Support\Str::limit(strip_tags($headline->content), 150) }}</p>
@@ -93,7 +88,7 @@
       <div class="d-flex mt-3">
         @if(isset($headline_thumbs) && count($headline_thumbs) > 0)
             @foreach($headline_thumbs as $thumb)
-                <img src="{{ asset('storage/'.$thumb->image) }}" alt="thumb" style="height:60px; width:90px;object-fit:cover; border-radius:8px; margin-right:7px; border:2px solid #fff;">
+                <img src="{{ asset('storage/01JVVTVQJGB555X8RWAN3ZHVJP.webp'.$thumb->image) }}" alt="thumb" style="height:60px; width:90px;object-fit:cover; border-radius:8px; margin-right:7px; border:2px solid #fff;">
             @endforeach
         @endif
       </div>
@@ -233,6 +228,35 @@
     <div class="text-center mt-3" style="color:#aaa; font-size:0.96em;">© 2025 WinniGP. All rights reserved.</div>
   </div>
 </footer>
+
+<script>
+  const sidebar = document.getElementById('sidebarMenu');
+  const openBtn = document.getElementById('openSidebarBtn');
+  const closeBtn = document.getElementById('closeSidebarBtn');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  // Show sidebar
+  openBtn.onclick = function() {
+    sidebar.style.left = '0';
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  };
+  // Hide sidebar
+  closeBtn.onclick = overlay.onclick = function() {
+    sidebar.style.left = '-320px';
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  // Tutup sidebar dengan ESC
+  window.addEventListener('keydown', function(e){
+    if(e.key==='Escape') {
+      sidebar.style.left = '-320px';
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  });
+</script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 @endsection

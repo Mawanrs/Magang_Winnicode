@@ -14,9 +14,11 @@ use Illuminate\Database\Eloquent\Model;
 class PembalapResource extends Resource
 {
     protected static ?string $model = Pembalap::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'Pembalap';
+
     protected static ?string $recordTitleAttribute = 'name';
+    
     protected static ?int $navigationSort = -2;
 
     public static function getNavigationBadge(): ?string

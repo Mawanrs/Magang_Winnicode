@@ -15,12 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->unsignedBigInteger('kategori_id');
             $table->string('image')->nullable();
             $table->text('content');
             $table->timestamps();
-
-            $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('cascade');
         });
     }
 

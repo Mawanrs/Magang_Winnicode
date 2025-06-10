@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\RegisterResource\Pages;
+namespace App\Filament\Admin\Resources\HasilKlasemenResource\Pages;
 
-use App\Filament\Admin\Resources\RegisterResource;
+use App\Filament\Admin\Resources\HasilKlasemenResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditRegister extends EditRecord
+class EditHasilKlasemen extends EditRecord
 {
-    protected static string $resource = RegisterResource::class;
+    protected static string $resource = HasilKlasemenResource::class;
 
     protected function getRedirectUrl(): string
     {

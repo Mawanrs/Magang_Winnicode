@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\LoginResource\Pages;
+namespace App\Filament\Admin\Resources\HeadlineResource\Pages;
 
-use App\Filament\Admin\Resources\LoginResource;
+use App\Filament\Admin\Resources\HeadlineResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditLogin extends EditRecord
+class EditHeadline extends EditRecord
 {
-    protected static string $resource = LoginResource::class;
+    protected static string $resource = HeadlineResource::class;
 
     protected function getRedirectUrl(): string
     {

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\KategoriResource\Pages;
+namespace App\Filament\Admin\Resources\JadwalPertandinganResource\Pages;
 
-use App\Filament\Admin\Resources\KategoriResource;
+use App\Filament\Admin\Resources\JadwalPertandinganResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditKategori extends EditRecord
+class EditJadwalPertandingan extends EditRecord
 {
-    protected static string $resource = KategoriResource::class;
+    protected static string $resource = JadwalPertandinganResource::class;
 
     protected function getRedirectUrl(): string
     {

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('jadwal_pertandingans', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('tanggal_dan_waktu');
-            $table->enum('nomor', ['1', '2', '3']);
-            $table->string('nama_negara');
-            $table->string('sponsor');
+            $table->string('nama_pertandingan');
+            $table->string('negara');
+            $table->dateTime('tanggal_dan_waktu')->nullable();
+            $table->enum('status', ['UP NEXT', 'FINISHED'])->default('UP NEXT');
+            $table->string('nama_event');
             $table->timestamps();
         });
     }

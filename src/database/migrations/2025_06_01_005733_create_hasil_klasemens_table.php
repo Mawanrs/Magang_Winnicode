@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('hasil_klasemens', function (Blueprint $table) {
             $table->id();
+            $table->integer('position');
+            $table->integer('points');
+            $table->string('avatar_url')->nullable();
+            $table->string('rider_number');
+            $table->string('rider_name');
+            $table->string('country_code', 2);
+            $table->string('team');
+            $table->string('gap_time');
             $table->timestamps();
         });
     }

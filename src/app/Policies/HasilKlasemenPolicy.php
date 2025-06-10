@@ -15,7 +15,7 @@ class HasilKlasemenPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_hasil');
+        return $user->can('view_any_hasil::klasemen');
     }
 
     /**
@@ -23,7 +23,7 @@ class HasilKlasemenPolicy
      */
     public function view(User $user, HasilKlasemen $hasilKlasemen): bool
     {
-        return $user->can('view_hasil');
+        return $user->can('view_hasil::klasemen');
     }
 
     /**
@@ -31,7 +31,7 @@ class HasilKlasemenPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_hasil');
+        return $user->can('create_hasil::klasemen');
     }
 
     /**
@@ -39,7 +39,7 @@ class HasilKlasemenPolicy
      */
     public function update(User $user, HasilKlasemen $hasilKlasemen): bool
     {
-        return $user->can('update_hasil');
+        return $user->can('update_hasil::klasemen');
     }
 
     /**
@@ -47,7 +47,7 @@ class HasilKlasemenPolicy
      */
     public function delete(User $user, HasilKlasemen $hasilKlasemen): bool
     {
-        return $user->can('delete_hasil');
+        return $user->can('delete_hasil::klasemen');
     }
 
     /**
@@ -55,7 +55,7 @@ class HasilKlasemenPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_hasil');
+        return $user->can('delete_any_hasil::klasemen');
     }
 
     /**

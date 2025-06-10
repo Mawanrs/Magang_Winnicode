@@ -16,6 +16,35 @@ class FrontendController extends Controller
     
     }
 
+    public function index()
+    {
+        $kategoris = Kategori::all();
+        // kirim ke view blade
+        return view('frontend.berita.index', compact('kategoris'));
+        
+        $headline = (object) [
+            'title' => 'Judul Headline Dummy',
+            'image' => 'dummy.jpg',
+            'content' => 'Isi berita dummy...',
+            'slug' => 'slug-dummy'
+        ];
+
+        $headline_thumbs = [
+            (object)[
+                'title' => 'Berita 1',
+                'image' => 'dummy1.jpg',
+                'created_at' => now()->subHours(1)
+            ],
+            (object)[
+                'title' => 'Berita 2',
+                'image' => 'dummy2.jpg',
+                'created_at' => now()->subHours(2)
+            ],
+        ];
+
+        return view('frontend.halamanutama', compact('headline', 'headline_thumbs'));
+    }
+
     // Data berita terbaru dummy
     public function berita()
     {
@@ -51,7 +80,9 @@ class FrontendController extends Controller
         ],
     ];
     $headline = News::latest()->first();
+    $headline_thumbs = Headline::orderBy('created_at', 'desc')->take(3)->get();
     $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
+    
 
     return view('frontend.halamanutama', compact('videos', 'headline', 'schedules'));
     }

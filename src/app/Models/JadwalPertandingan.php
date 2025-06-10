@@ -9,11 +9,11 @@ class JadwalPertandingan extends Model
     protected $table = 'jadwal_pertandingans';
 
     protected $fillable = [
+        'nama_pertandingan',
+        'negara',
         'tanggal_dan_waktu',
-        'nomor',
-        'nama_negara',
-        'sponsor',
+        'status',
+        'nama_event',
     ];
 
-    public $timestamps = true;
 }

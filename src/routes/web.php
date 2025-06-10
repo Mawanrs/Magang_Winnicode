@@ -32,9 +32,13 @@ Route::get('/berita', [FrontendController::class, 'berita']);
 Route::get('/hasil-dan-klasemen', [FrontendController::class, 'hasil_dan_klasemen']);
 Route::get('/detail_berita', [FrontendController::class, 'detail_berita']);
 Route::get('/info_harga_tiket', [FrontendController::class, 'infomasi_tiket']);
-// Route::get('/profile', [FrontendController::class, 'profile']);
+Route::get('/profile/id/personal-details', [ProfileController::class, 'editProfile'])->name('profile.edit');
 
-//  Login
+//  Frontend Post
+Route::post('/profile/id/personal-details', [ProfileController::class, 'updateProfile'])->name('profile.update');
+
+
+//  Login dan Register
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 

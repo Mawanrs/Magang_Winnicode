@@ -2,8 +2,8 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\UserResource\Pages;
-use App\Models\User;
+use App\Filament\Admin\Resources\JadwalPertandinganResource\Pages;
+use App\Models\JadwalPertandingan;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,11 +14,9 @@ use Illuminate\Support\Facades\Hash;
 
 class JadwalPertandinganResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = JadwalPertandingan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
-
-    protected static ?string $navigationGroup = 'Jadwal Pertandingan';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -46,100 +44,64 @@ class JadwalPertandinganResource extends Resource
     {
         return $form
             ->schema([
-
                 Forms\Components\Grid::make(2)
                     ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->minLength(2)
-                            ->maxLength(255)
-                            ->columnSpan('full')
-                            ->required(),
-                        Forms\Components\FileUpload::make('avatar_url')
-                            ->label('Avatar')
-                            ->image()
-                            ->optimize('webp')
-                            ->imageEditor()
-                            ->imagePreviewHeight('250')
-                            ->panelAspectRatio('7:2')
-                            ->panelLayout('integrated')
+                        Forms\Components\TextInput::make('nama_pertandingan')
+                            ->label('Nama Pertandingan')
+                            ->required()
                             ->columnSpan('full'),
-                        Forms\Components\TextInput::make('email')
-                            ->required()
-                            ->prefixIcon('heroicon-m-envelope')
-                            ->columnSpan('full')
-                            ->email(),
-
-                        Forms\Components\TextInput::make('password')
-                            ->password()
-                            ->confirmed()
-                            ->columnSpan(1)
-                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $context): bool => $context === 'create'),
-                        Forms\Components\TextInput::make('password_confirmation')
-                            ->required(fn (string $context): bool => $context === 'create')
-                            ->columnSpan(1)
-                            ->password(),
+                        Forms\Components\DateTimePicker::make('tanggal_dan_waktu')
+                            ->label('Tanggal & Waktu')
+                            ->required(),
+                        Forms\Components\TextInput::make('negara')
+                            ->label('Negara')
+                            ->required(),
+                            Forms\Components\TextInput::make('nama_event')
+                            ->label('Nama Event')
+                            ->required(),
                     ]),
-
-                Forms\Components\Section::make('Roles')
-                    ->schema([
-                        Forms\Components\Select::make('roles')
-                            ->required()
-                            ->multiple()
-                            ->relationship('roles', 'name')
-                            ->label('Roles'),
-                    ])
-                    ->columns(1),
-
             ]);
     }
+
 
     public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('avatar_url')
-                    ->defaultImageUrl(url('https://www.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?d=mp&r=g&s=250'))
-                    ->label('Avatar')
-                    ->circular(),
-                Tables\Columns\TextColumn::make('email')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->badge()
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->date()
-                    ->sortable()
-                    ->searchable(),
+{
+    return $table
+        ->columns([
+            Tables\Columns\TextColumn::make('id')
+            ->sortable()
+            ->searchable(),
+            Tables\Columns\TextColumn::make('nama_pertandingan')->label('Nama Pertandingan')
+            ->sortable()
+            ->searchable(),
+            Tables\Columns\TextColumn::make('negara')->label('Negara')
+            ->sortable()
+            ->searchable(),
+            Tables\Columns\TextColumn::make('tanggal_dan_waktu')->label('Tanggal & Waktu')
+            ->dateTime()
+            ->sortable(),
+            Tables\Columns\TextColumn::make('status')
+            ->badge()
+            ->sortable(),
+            Tables\Columns\TextColumn::make('nama_event')->label('Event')
+            ->sortable()
+            ->searchable(),
+        ])
+        ->actions([
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ])
+        ->emptyStateActions([
+            Tables\Actions\CreateAction::make(),
+        ]);
+}
 
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    // Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
-            ]);
-    }
 
     public static function getRelations(): array
     {
@@ -151,9 +113,9 @@ class JadwalPertandinganResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListJadwalPertandingan::route('/'),
+            'create' => Pages\CreateJadwalPertandingan::route('/create'),
+            'edit' => Pages\EditJadwalPertandingan::route('/{record}/edit'),
         ];
     }
 }

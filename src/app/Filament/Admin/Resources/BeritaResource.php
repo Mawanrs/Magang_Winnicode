@@ -16,13 +16,11 @@ class BeritaResource extends Resource
 {
     protected static ?string $model = News::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
-
-    protected static ?string $navigationGroup = 'Berita';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = -2;
+    protected static ?int $navigationSort = -1;
 
     public static function getNavigationBadge(): ?string
     {
@@ -54,8 +52,8 @@ class BeritaResource extends Resource
                 ->sortable()
                 ->searchable(),
 
-            Tables\Columns\TextColumn::make('kategori.nama')
-                ->label('Kategori')
+            Tables\Columns\TextColumn::make('slug')
+                ->label('Slug')
                 ->sortable()
                 ->searchable(),
 
@@ -86,11 +84,13 @@ class BeritaResource extends Resource
                     ->label('Judul')
                     ->required()
                     ->maxLength(255),
-
-                Forms\Components\Select::make('kategori_id')
-                    ->label('Kategori')
-                    ->relationship('kategori', 'nama')
-                    ->required(),
+                
+                Forms\Components\TextInput::make('slug')
+                    ->label('Slug')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(News::class, 'slug', ignoreRecord: true)
+                    ->columnSpanFull(),
 
                 Forms\Components\FileUpload::make('image')
                     ->label('Gambar')
