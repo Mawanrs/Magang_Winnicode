@@ -12,18 +12,11 @@
             </div>
             <ul class="nav flex-column mb-4">
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">
+                    <a class="nav-link {{ Request::routeIs('frontend.profile.edit') ? 'active' : '' }}" href="{{ route('frontend.profile.edit') }}">
                         <i class="bi bi-person"></i> Data pribadi
                     </a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#">Alamat saya</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Kesukaan saya</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Langganan</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Metode pembayaran</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">MotoGP™ Fan Club</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Game Hub</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Pusat preferensi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Ganti kata sandi</a></li>
+                <!-- Menu lainnya -->
             </ul>
         </div>
         <!-- End Sidebar -->
@@ -33,7 +26,7 @@
             <div class="card shadow-sm w-75">
                 <div class="card-body">
                     <h3 class="fw-bold mb-3 text-center" style="letter-spacing:1px;">AKUN SAYA</h3>
-                    <form method="POST" action="{{ route('profile.update') }}">
+                    <form method="POST" action="{{ route('frontend.profile.update') }}">
                         @csrf
 
                         <h5 class="mb-3 fw-bold">Data pribadi</h5>
@@ -43,39 +36,39 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold">Surel</label>
                             <input type="email" class="form-control" value="{{ $user->email }}" disabled>
-                            <a href="{{ route('profile.change-email') }}" class="small">Ubah surel</a>
+                            <a href="{{ route('frontend.profile.change-email') }}" class="small">Ubah surel</a>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Nama</label>
                             <input type="text" class="form-control" name="first_name" value="{{ old('first_name', $user->first_name) }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Nama belakang</label>
+                            <label class="form-label fw-bold">Nama Belakang</label>
                             <input type="text" class="form-control" name="last_name" value="{{ old('last_name', $user->last_name) }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Nama panggilan</label>
+                            <label class="form-label fw-bold">Nama Panggilan</label>
                             <input type="text" class="form-control" name="nickname" value="{{ old('nickname', $user->nickname) }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Jenis kelamin</label>
+                            <label class="form-label fw-bold">Jenis Kelamin</label>
                             <div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="pria" value="Pria" {{ $user->gender=='Pria' ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" name="gender" id="pria" value="Pria" {{ $user->gender == 'Pria' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="pria">Pria</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="wanita" value="Wanita" {{ $user->gender=='Wanita' ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" name="gender" id="wanita" value="Wanita" {{ $user->gender == 'Wanita' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="wanita">Wanita</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="lainnya" value="Lainnya" {{ $user->gender=='Lainnya' ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" name="gender" id="lainnya" value="Lainnya" {{ $user->gender == 'Lainnya' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="lainnya">Lainnya</label>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Tanggal lahir</label>
+                            <label class="form-label fw-bold">Tanggal Lahir</label>
                             <input type="date" class="form-control" name="birthdate" value="{{ old('birthdate', $user->birthdate) }}">
                         </div>
                         <div class="mb-3">
@@ -91,4 +84,3 @@
         <!-- End Main Content -->
     </div>
 </div>
-@endsection

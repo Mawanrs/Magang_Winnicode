@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JadwalPertandinganController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
@@ -31,11 +32,16 @@ Route::get('/pembalap_dan_tim', [FrontendController::class, 'pembalap']);
 Route::get('/berita', [FrontendController::class, 'berita']);
 Route::get('/hasil-dan-klasemen', [FrontendController::class, 'hasil_dan_klasemen']);
 Route::get('/detail_berita', [FrontendController::class, 'detail_berita']);
-Route::get('/info_harga_tiket', [FrontendController::class, 'infomasi_tiket']);
-Route::get('/profile/id/personal-details', [ProfileController::class, 'editProfile'])->name('profile.edit');
+    
 
-//  Frontend Post
-Route::post('/profile/id/personal-details', [ProfileController::class, 'updateProfile'])->name('profile.update');
+
+//  Frontend Profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserProfileController::class, 'show'])->name('frontend.profile.show');
+    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('frontend.profile.edit');
+    Route::get('/profile/change-email', [UserProfileController::class, 'changeEmail'])->name('frontend.profile.change-email');
+    Route::post('/profile', [UserProfileController::class, 'update'])->name('frontend.profile.update');
+});
 
 
 //  Login dan Register

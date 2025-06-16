@@ -35,7 +35,7 @@
 </head>
 <body>
     <div class="grid">
-        @foreach ($jadwal as $j)
+        @foreach ($schedules as $j)
             <div class="card">
                 <div class="status {{ str_replace(' ', '', strtoupper($j->status)) }}">
                     {{ $j->status }}
@@ -56,5 +56,6 @@
             </div>
         @endforeach
     </div>
+
 </body>
 </html>

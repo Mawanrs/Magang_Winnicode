@@ -69,6 +69,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
     public function berita()
     {
-    return $this->hasMany(Berita::class);
+        return $this->hasMany(Berita::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
     }
 }

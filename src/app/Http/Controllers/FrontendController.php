@@ -21,7 +21,7 @@ class FrontendController extends Controller
         $kategoris = Kategori::all();
         // kirim ke view blade
         return view('frontend.berita.index', compact('kategoris'));
-        
+
         $headline = (object) [
             'title' => 'Judul Headline Dummy',
             'image' => 'dummy.jpg',
