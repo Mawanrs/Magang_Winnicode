@@ -12,9 +12,6 @@
             </div>
             <ul class="nav flex-column mb-4">
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('frontend.profile.edit') ? 'active' : '' }}" href="{{ route('frontend.profile.edit') }}">
-                        <i class="bi bi-person"></i> Data pribadi
-                    </a>
                 </li>
                 <!-- Menu lainnya -->
             </ul>
@@ -31,7 +28,7 @@
 
                         <h5 class="mb-3 fw-bold">Data pribadi</h5>
                         <p class="text-muted" style="margin-top:-8px; font-size:0.95rem;">
-                            Informasi dasar, seperti nama, tanggal lahir dan negara, untuk akun Dorna Anda
+                            Informasi dasar, seperti nama, tanggal lahir dan negara, untuk akun Anda
                         </p>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Surel</label>

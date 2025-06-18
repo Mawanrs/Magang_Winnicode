@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\JadwalPertandinganController;
@@ -46,9 +47,11 @@ Route::middleware('auth')->group(function () {
 
 //  Login dan Register
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
 
-//logout
+// Logout
 Route::post('/logout', function(){
     Auth::logout();
     return redirect('/');
