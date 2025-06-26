@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\JadwalPertandingan;
 use App\Models\News;
+use App\Models\HasilKlasemen;
+    use App\Models\Pembalap;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -93,5 +95,17 @@ class FrontendController extends Controller
         $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
         $headline = News::latest()->first(); // TAMBAHKAN INI!
         return view('frontend.jadwalpertandingan', compact('schedules', 'headline'));
+    }
+
+    public function hasil_dan_klasemen()
+    {
+        $klasemen = HasilKlasemen::orderBy('position', 'asc')->get();
+        return view('frontend.hasil_dan_klasemen', compact('klasemen'));
+    }
+
+    public function pembalap()
+    {
+        $pembalap = Pembalap::all();
+        return view('frontend.pembalap_dan_tim', compact('pembalap'));
     }
 }

@@ -9,11 +9,11 @@ class Pembalap extends Model
     protected $table = 'pembalaps';
 
     protected $fillable = [
-        'tag_name',
-        'name',
-        'flag_image',
-        'flag_name',
-        'avatar_url',
+        'rider_number',
+        'rider_name',
         'team',
+        'country_code',
+        'avatar_url',
+        'flag_image',
     ];
 }

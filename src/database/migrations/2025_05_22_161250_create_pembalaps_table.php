@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('pembalaps', function (Blueprint $table) {
             $table->id();
-            $table->string('tag_name')->nullable();
-            $table->string('name')->nullable();
-            $table->string('flag_image')->nullable();
-            $table->string('flag_name')->nullable();
+            $table->string('rider_number');
+            $table->string('rider_name');
+            $table->string('team');
+            $table->string('flag_image')->nullable();  
             $table->string('avatar_url')->nullable();
-            $table->string('team')->nullable();
             $table->timestamps();
         });
     }
