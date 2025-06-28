@@ -1,32 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- NAVBAR --}}
-<nav class="navbar navbar-expand-lg navbar-dark" style="background: #101010; border-bottom:5px solid #d9002b; padding:0.4rem 0;">
-  <div class="container">
-    <!-- Sidebar Button -->
+
+{{-- ==== HEADER WINNICODE ==== --}}
+<div class="winnicode-topbar text-center py-3">
+    <img src="{{ asset('storage/banner-logo (1).png') }}" alt="Winni Code" class="winnicode-logo">
+</div>
+<hr class="winnicode-line">
+
+{{-- ==== NAVBAR ==== --}}
+<nav class="navbar navbar-expand-lg navbar-dark winni-navbar">
+  <div class="container-fluid">
     <button id="openSidebarBtn" class="btn btn-link p-0 me-2" type="button" style="font-size:2.1rem;">
-      <i class="bi bi-list" style="color:#2196f3;"></i>
+      <span class="winnicode-menuicon"></span>
     </button>
-    <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center me-3" href="/" style="font-size:1.5rem;">
-      <img src="{{ asset('storage/logo-winnicode.png') }}" alt="Logo WinniGP" style="height:38px; margin-right:8px;">
-      <span style="font-weight:900; letter-spacing:1px;">WinniGP</span>
+    <a class="navbar-brand d-flex align-items-center me-3" href="/">
+      <span class="fw-bold winni-navbar-brand">WinniGP</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold" style="font-size:1.17em;">
-        <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold winni-navbar-menu">
+        <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal Pertandingan</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasmen</a></li>
         <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
         <li class="nav-item"><a class="nav-link px-3" href="/berita">Berita</a></li>
       </ul>
-      <ul class="navbar-nav ms-auto align-items-center fw-bold" style="font-size:1.09em;">
+      <ul class="navbar-nav ms-auto align-items-center fw-bold winni-navbar-auth">
         @guest
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/login') }}">Masuk</a>
+          </li>
+          <li class="nav-item">
+            <span class="winni-auth-divider">|</span>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/register') }}">Daftar</a>
@@ -47,7 +54,44 @@
   </div>
 </nav>
 
-{{-- SIDEBAR OVERLAY + MENU (COPY PASTE PUNYAMU, TIDAK DIUBAH) --}}
+<div class="winnicode-infobar d-flex align-items-center">
+    <div class="winni-infobar-flag d-flex align-items-center">
+        <img src="https://flagcdn.com/es.svg" alt="Spain" width="28" height="20">
+        <span class="ms-2">Spain Moto3 Test</span>
+        <i class="bi bi-chevron-right ms-2"></i>
+    </div>
+    <div class="winnicode-infobar-session flex-grow-1 text-center">
+        MOTO3<sup>™</sup> SESSION 2
+    </div>
+</div>
+
+{{-- ==== HERO / HEADLINE ==== --}}
+@if($headline)
+<div class="container-fluid p-0 position-relative winnicode-hero">
+  <img src="{{ asset('storage/'.$headline->image) }}" alt="{{ $headline->title }}" class="w-100 winni-hero-img">
+  <div class="winnicode-hero-text">
+    <div class="winnicode-hero-label">MOTOGP™</div>
+    <div class="winnicode-hero-title">{{ $headline->title }}</div>
+    <a href="{{ url('/berita/'.$headline->slug) }}" class="winnicode-hero-btn">BACA SEKARANG</a>
+  </div>
+  <div class="winnicode-minicards-container">
+    <div class="winnicode-minicards-row d-flex justify-content-center">
+      {{-- Loop data real kamu di sini --}}
+      @foreach($news as $n)
+        <div class="winnicode-minicard">
+          <img src="{{ asset('storage/'.$n->image) }}" alt="thumb">
+          <div>
+              <div class="winnicode-minicard-title">{{ $n->title }}</div>
+              <div class="winnicode-minicard-time">{{ $n->created_at->diffForHumans() }}</div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+</div>
+@endif
+
+{{-- SIDEBAR OVERLAY + MENU--}}
 <div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.08); z-index:1099;"></div>
 <aside id="sidebarMenu" style="position:fixed; top:0; left:-320px; width:320px; height:100vh; background:#fff; z-index:1200; transition: left .28s cubic-bezier(.9,0,.42,1.13); box-shadow:2px 0 16px #2222;">
   <div class="p-4 pb-1 d-flex align-items-center">
@@ -55,167 +99,202 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Moto_Gp_logo.svg" alt="MotoGP" style="height:40px;">
   </div>
   <ul class="list-unstyled ps-4 pe-4 mb-3" style="font-size:1.17em;">
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Kalender</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Hasil</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Klasemen</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
-    <li class="mb-3"><a href="#" class="text-dark text-decoration-none">Berita</a></li>
+    <li class="mb-3"><a href="/jadwal" class="text-dark text-decoration-none">Kalender</a></li>
+    <li class="mb-3"><a href="/hasil_dan_klasemen" class="text-dark text-decoration-none">Hasil & Klasemen</a></li>
+    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
+    <li class="mb-3"><a href="/berita" class="text-dark text-decoration-none">Berita</a></li>
   </ul>
 </aside>
 
-{{-- HERO / HEADLINE (PERSIS PDF: gambar besar, text besar, button) --}}
-@if($headline)
-<div class="container-fluid p-0 position-relative" style="background:#222;min-height:320px;">
-  <img src="{{ asset('storage/'.$headline->image) }}" alt="{{ $headline->title }}" class="w-100" style="object-fit:cover;height:370px;filter:brightness(.78);">
-  <div class="position-absolute" style="top:38%;left:60px;color:#fff;text-shadow:2px 2px 12px #111c;max-width:44%;">
-    <div style="font-size:2.8rem;line-height:1.1;font-weight:900;text-transform:uppercase;">{{ $headline->title }}</div>
-    <div style="font-size:1.23rem;margin-bottom:15px;font-weight:500;">
-      {{ \Illuminate\Support\Str::limit(strip_tags($headline->content), 170) }}
+{{-- SECTION Klasemen & Jadwal --}}
+  <div class="container">
+  <div class="klasemen-section">
+    <div class="klasemen-header d-flex justify-content-between align-items-center">
+      <h2 class="klasemen-title">2025 Michelin<sup>®</sup> Grand Prix of France</h2>
+      <a href="{{ route('hasil_dan_klasemen') }}" class="klasemen-link">
+        Klasemen Lengkap
+        <svg ...></svg>
+      </a>
     </div>
-    <a href="{{ url('/berita/'.$headline->slug) }}" class="btn" style="background:#d9002b;color:#fff;font-size:1.08em;border-radius:8px;padding:10px 30px;">BACA SEKARANG</a>
+    <div class="klasemen-tabs d-flex">
+      <div class="klasemen-tab active">MOTOGP™</div>
+      <div class="klasemen-tab">MOTO2™</div>
+      <div class="klasemen-tab">MOTO3™</div>
+      <div class="klasemen-tab">MOTOE™</div>
+    </div>
+    <div class="klasemen-table-wrapper">
+      <table class="klasemen-table">
+        <thead>
+          <tr>
+            <th>Pos.</th>
+            <th>Pembalap</th>
+            <th>Tim</th>
+            <th>Poin</th>
+            <th>Gap</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($klasemen as $k => $row)
+            <tr class="{{ $k==0 ? 'top-klasemen' : '' }}">
+              <td>{{ $row->position }}</td>
+              <td class="klasemen-nama">{{ $row->rider_name }}</td>
+              <td>
+                @if($row->country_code)
+                  <img src="https://flagcdn.com/24x18/{{ strtolower($row->country_code) }}.png" alt="{{ $row->country_code }}" width="24" height="18" style="margin-right:4px;">
+                @endif
+                {{ $row->team }}
+              </td>
+              <td class="klasemen-poin">{{ $row->points }}</td>
+              <td class="klasemen-gap">{{ $row->gap_time }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-@endif
 
-{{-- SECTION KELASMEN & JADWAL --}}
-<div class="container mt-4">
-  <div class="row align-items-end mb-2">
-    <div class="col-md-7 fw-bold" style="font-size:1.5rem;">2025 Michelin™ Grand Prix of France</div>
-    <div class="col-md-5 text-end">
-      <a href="/hasil-dan-klasemen" class="btn btn-outline-danger fw-bold" style="border-width:2px;">Lihat Klasemen &rarr;</a>
-    </div>
-  </div>
-  <div class="table-responsive mb-5">
-    <table class="table table-bordered" style="background:#fff;box-shadow:0 2px 14px #0001;text-align:center;">
-      <thead style="background:#222;color:#fff;">
-        <tr>
-          <th>Pos</th>
-          <th>Pembalap</th>
-          <th>Poin</th>
-          <th>Gap</th>
-        </tr>
-      </thead>
-      <tbody>
-        @if(isset($klasemen) && count($klasemen)>0)
-          @foreach($klasemen as $k => $row)
-          <tr @if($k==0) style="background:#ffeaea" @elseif($k==1) style="background:#fffbd9" @elseif($k==2) style="background:#d9ffd9" @endif>
-            <td class="fw-bold">{{ $row->position }}</td>
-            <td class="fw-bold">{{ $row->pembalap }}</td>
-            <td>{{ $row->poin }}</td>
-            <td>{{ $row->selisih ?? '-' }}</td>
-          </tr>
-          @endforeach
-        @else
-          <tr style="background:#ffeaea"><td>1</td><td>Marc Marquez</td><td>171</td><td></td></tr>
-          <tr style="background:#fffbd9"><td>2</td><td>Bagnaia</td><td>149</td><td>-22</td></tr>
-          <tr style="background:#d9ffd9"><td>3</td><td>J. Zarco</td><td>120</td><td>-51</td></tr>
-        @endif
-      </tbody>
-    </table>
-  </div>
-
-  {{-- HIGHLIGHT SECTION (PDF: gambar kanan besar, judul dan tombol kiri) --}}
-  <div class="row mb-5 align-items-center">
-    <div class="col-md-8">
-      <div class="fw-bold" style="font-size:1.31rem;letter-spacing:.5px;">Momen Terbaik MotoGP™ | GP Prancis 2025</div>
-      <div style="font-size:1.08em;margin-bottom:18px;">
-        Saksikan aksi dramatis dan kejutan di GP Prancis 2025. <br>
-        Lihat cuplikan terbaik dan sorotan menarik yang tak terlupakan!
+{{-- HIGHLIGHT SECTION --}}
+<div class="container">
+  <div class="highlight-section row align-items-center">
+    <div class="col-md-6 highlight-left">
+      <div class="highlight-title">
+        Momen Terbaik MotoGP™ 🏆 | GP Prancis 2025
       </div>
-      <a href="#" class="btn" style="background:#d9002b;color:#fff;font-size:1.03em;border-radius:8px;padding:7px 28px;">Baca Sekarang</a>
+      <div class="highlight-desc">
+        Grand Prix tak terlupakan dengan drama dari awal hingga akhir, serta luapan emosional dalam wujud pemenang yang mengejutkan 🙌 Lihat momen-momen penting dari balapan gila di Le Mans 👀
+      </div>
+      <a href="#" class="highlight-btn">Baca Sekarang</a>
     </div>
-    <div class="col-md-4">
-      <img src="{{ asset('storage/highlight-momen.jpg') }}" alt="Highlight Momen" style="width:100%;border-radius:15px;object-fit:cover;">
+    <div class="col-md-6 highlight-img-col">
+      <img src="{{ asset('storage/Highlight.webp') }}" alt="Highlight Momen" class="highlight-img">
     </div>
   </div>
+</div>
+
+<div class="container">
 
   {{-- VIDEO TERBARU --}}
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <div class="fw-bold" style="font-size:1.25rem;">Video Terbaru</div>
-    <a href="/videos" class="fw-semibold text-danger" style="font-size:1em;">Lebih Banyak &rarr;</a>
+  <div class="section-header d-flex justify-content-between align-items-center mb-3 mt-5">
+      <div class="section-title">Video Terbaru</div>
+      <a href="/videos" class="section-more-link">
+          Lebih Banyak
+          <svg width="32" height="22" viewBox="0 0 32 22" fill="none">
+              <path d="M23 2L30 11L23 20" stroke="#000" stroke-width="2"/>
+              <line x1="30" y1="11" x2="2" y2="11" stroke="#000" stroke-width="2"/>
+          </svg>
+      </a>
   </div>
-  <div class="row flex-nowrap overflow-auto mb-4 pb-2" style="gap:18px;">
-    @if(!empty($videos))
+  <div class="video-grid mb-5">
       @foreach($videos as $vid)
-      <div class="card" style="min-width:280px;max-width:310px;">
-        <img src="{{ asset('storage/'.$vid->thumbnail) }}" class="card-img-top" alt="Video">
-        <div class="card-body">
-          <h6 class="card-title mb-1 fw-bold" style="font-size:1.08em;">{{ $vid->title }}</h6>
-          <span class="text-muted" style="font-size:.96em;">{{ $vid->duration ?? '' }}</span>
-        </div>
+      <div class="video-card">
+          <div class="video-thumb-wrap">
+              <img src="{{ asset('storage/'.$vid->thumbnail) }}" alt="Video" class="video-thumb">
+              <span class="video-duration"><i class="bi bi-play-fill"></i>{{ $vid->duration }}</span>
+              <div class="video-overlay"></div>
+          </div>
+          <div class="video-info">
+              <div class="video-title">{{ $vid->title }}</div>
+              <div class="video-desc">{{ Str::limit(strip_tags($vid->desc), 70) }}</div>
+              <div class="video-date">{{ \Carbon\Carbon::parse($vid->created_at)->translatedFormat('d F Y') }}</div>
+          </div>
       </div>
       @endforeach
-    @else
-      <div class="card" style="min-width:280px;max-width:310px;">
-        <img src="{{ asset('storage/video1.jpg') }}" class="card-img-top" alt="Video">
-        <div class="card-body">
-          <h6 class="card-title mb-1 fw-bold">Replay: GP Prancis 2025</h6>
-          <span class="text-muted">01:23:00</span>
-        </div>
-      </div>
-    @endif
   </div>
 
   {{-- BERITA TERBARU --}}
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <div class="fw-bold" style="font-size:1.23rem;">Berita Terbaru</div>
-    <a href="/berita" class="fw-semibold text-danger" style="font-size:1em;">Lebih Banyak &rarr;</a>
+  <div class="section-header d-flex justify-content-between align-items-center mb-3 mt-5">
+      <div class="section-title">Berita Terbaru</div>
+      <a href="/berita" class="section-more-link">
+          Lebih Banyak
+          <svg width="32" height="22" viewBox="0 0 32 22" fill="none">
+              <path d="M23 2L30 11L23 20" stroke="#000" stroke-width="2"/>
+              <line x1="30" y1="11" x2="2" y2="11" stroke="#000" stroke-width="2"/>
+          </svg>
+      </a>
   </div>
-  <div class="row flex-nowrap overflow-auto mb-4 pb-2" style="gap:18px;">
-    @if(!empty($news))
-      @foreach($news as $item)
-      <div class="card" style="min-width:280px;max-width:310px;">
-        <img src="{{ asset('storage/'.$item->image) }}" class="card-img-top" alt="{{ $item->title }}">
-        <div class="card-body">
-          <h6 class="card-title fw-bold" style="font-size:1.08em;">{{ $item->title }}</h6>
-          <div class="text-muted" style="font-size:0.97em;">{{ Str::limit(strip_tags($item->content), 80) }}</div>
-        </div>
+  <div class="video-grid">
+      @forelse($news as $item)
+      <div class="video-card">
+          <div class="video-thumb-wrap">
+              <img src="{{ asset('storage/'.$item->image) }}" class="video-thumb" alt="{{ $item->title }}">
+              <div class="video-overlay"></div>
+          </div>
+          <div class="video-info">
+              <div class="video-title">{{ $item->title }}</div>
+              <div class="video-desc">{{ \Illuminate\Support\Str::limit(strip_tags($item->content ?? ''), 70) }}</div>
+              <div class="video-date">{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</div>
+          </div>
       </div>
-      @endforeach
-    @else
-      <div class="card" style="min-width:280px;max-width:310px;">
-        <img src="{{ asset('storage/berita1.jpg') }}" class="card-img-top" alt="Berita">
-        <div class="card-body">
-          <h6 class="card-title fw-bold">MotoGP Prancis Kacau!</h6>
-          <div class="text-muted">Banyak insiden menegangkan sepanjang balapan.</div>
-        </div>
+      @empty
+      <div class="video-card">
+          <div class="video-thumb-wrap">
+              <img src="{{ asset('storage/berita1.jpg') }}" class="video-thumb" alt="Berita">
+              <div class="video-overlay"></div>
+          </div>
+          <div class="video-info">
+              <div class="video-title">MotoGP Prancis Kacau!</div>
+              <div class="video-desc">Banyak insiden menegangkan sepanjang balapan.</div>
+              <div class="video-date">12 Mei 2025</div>
+          </div>
       </div>
-    @endif
+      @endforelse
   </div>
 </div>
 
-{{-- FOOTER PDF STYLE --}}
-<footer class="mt-4" style="background:#fff; border-top:2px solid #eee; padding:30px 0;">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3 mb-3">
-        <img src="{{ asset('storage/logo-winnicode.png') }}" alt="Logo WinniGP" style="height:38px;">
-        <span class="fw-bold ms-2" style="font-size:1.13em;">WinniGP</span>
-      </div>
-      <div class="col-md-6 mb-3">
-        <a href="#" class="me-3 text-secondary">Tentang</a>
-        <a href="#" class="me-3 text-secondary">Berita</a>
-        <a href="#" class="me-3 text-secondary">Kontak Kami</a>
-        <a href="#" class="me-3 text-secondary">Privasi & Policy</a>
-        <a href="#" class="text-secondary">Sitemap</a>
-      </div>
-      <div class="col-md-3 mb-3">
-        <span class="fw-bold">Ikuti Kami:</span>
-        <span style="font-size:1.22em; margin-left:10px;">
-          <i class="bi bi-facebook"></i>
-          <i class="bi bi-twitter"></i>
-          <i class="bi bi-youtube"></i>
-        </span>
-      </div>
+{{-- FOOTER --}}
+<footer class="footer-wgp">
+  <div class="footer-wgp-head">
+    <div class="footer-wgp-title">WinniGP</div>
+    <div class="footer-wgp-sponsor">Sponsor Resmi</div>
+    <div class="footer-wgp-logo">
+      <img src="{{ asset('storage/logo (1).png') }}" alt="WinniGP" />
     </div>
-    <div class="text-center mt-2" style="color:#aaa; font-size:0.95em;">© 2025 WinniGP. All rights reserved.</div>
+  </div>
+  <div class="footer-wgp-divider"></div>
+  <div class="footer-wgp-bottom">
+    <div class="footer-wgp-col">
+      <div class="footer-wgp-col-title">Informasi</div>
+      <ul>
+        <li><a href="#">Jadwal Pertandingan</a></li>
+        <li><a href="#">Hasil & Klasemen</a></li>
+        <li><a href="#">Informasi Harga Tiket</a></li>
+        <li><a href="#">Berita</a></li>
+      </ul>
+    </div>
+    <div class="footer-wgp-col">
+      <div class="footer-wgp-col-title">SITEMAP</div>
+      <ul>
+        <li><a href="https://winnicode.com/">Beranda</a></li>
+        <li><a href="https://winnicode.com/explore/berita">Berita</a></li>
+        <li><a href="https://winnicode.com/kontak-kami">Kontak Kami</a></li>
+        <li><a href="https://winnicode.com/privasi-policy">Privasi & Policy</a></li>
+        <li><a href="https://winnicode.com/tentang">Tentang</a></li>
+      </ul>
+    </div>
+    <div class="footer-wgp-col">
+    <div class="footer-wgp-col-title">Bagikan</div>
+      <div class="footer-wgp-sosmed">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}" target="_blank" rel="noopener" title="Bagikan ke Facebook">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a href="https://api.whatsapp.com/send?text={{ urlencode('Cek websitenya: '.url('/').' - dari '.(Auth::check() ? Auth::user()->name : 'anonim')) }}" target="_blank">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?text={{ urlencode('Cek website ini! - dari Mawan') }}&url={{ url('/') }}" target="_blank">
+          <i class="bi bi-x"></i>
+        </a>
+      </div>
   </div>
 </footer>
 
-{{-- BOOTSTRAP ICONS --}}
+{{-- === BOOTSTRAP ICONS CDN === --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-{{-- Sidebar JS, sama persis punyamu --}}
+{{-- === WINNICODE CSS (PASTIKAN DIPANGGIL DI HEAD atau bawah sebelum </body>) === --}}
+<link rel="stylesheet" href="{{ asset('css/winnicode.css') }}">
+
+{{-- === SIDEBAR JS (sama seperti sebelumnya) === --}}
 <script>
   const sidebar = document.getElementById('sidebarMenu');
   const openBtn = document.getElementById('openSidebarBtn');

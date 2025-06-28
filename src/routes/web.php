@@ -31,9 +31,12 @@ Route::get('/', function () {
 Route::get('/', [FrontendController::class, 'home']);
 Route::get('/jadwal', [FrontendController::class, 'schedule']);
 Route::get('/pembalap_dan_tim', [FrontendController::class, 'pembalap']);
-Route::get('/berita', [FrontendController::class, 'berita']);
-Route::get('/hasil-dan-klasemen', [FrontendController::class, 'hasil_dan_klasemen']);
+Route::get('/berita', [FrontendController::class, 'berita'])->name('berita');
+Route::get('/berita/{slug}', [FrontendController::class, 'berita_detail'])->name('berita.detail');
+Route::get('/hasil-dan-klasemen', [FrontendController::class, 'hasil_dan_klasemen'])->name('hasil_dan_klasemen');
 Route::get('/detail_berita', [FrontendController::class, 'detail_berita']);
+Route::get('/videos', [FrontendController::class, 'video'])->name('videos');
+Route::get('/videos/{slug}', [FrontendController::class, 'videoDetail'])->name('video.detail');
     
 
 

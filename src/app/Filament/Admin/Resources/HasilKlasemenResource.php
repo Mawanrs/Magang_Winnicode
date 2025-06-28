@@ -28,6 +28,20 @@ class HasilKlasemenResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Grid::make(2)->schema([
+                    Forms\Components\TextInput::make('position')
+                        ->label('Posisi')
+                        ->numeric()
+                        ->required(),
+
+                    Forms\Components\TextInput::make('points')
+                        ->label('Poin')
+                        ->numeric()
+                        ->required(),
+
+                    Forms\Components\TextInput::make('gap_time')
+                        ->label('Gap')
+                        ->required(),
+
                     Forms\Components\TextInput::make('rider_number')
                         ->label('Nomor Pembalap')
                         ->numeric()
@@ -68,6 +82,10 @@ class HasilKlasemenResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('position')
+                    ->label('Pos')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('rider_number')
                     ->label('Nomor')
                     ->sortable()
@@ -83,6 +101,14 @@ class HasilKlasemenResource extends Resource
                     ->label('Tim')
                     ->sortable()
                     ->searchable(),
+
+                Tables\Columns\TextColumn::make('points')
+                    ->label('Poin')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('gap_time')
+                    ->label('Gap')
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('country_code')
                     ->label('Negara')

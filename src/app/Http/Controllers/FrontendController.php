@@ -1,99 +1,57 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\JadwalPertandingan;
 use App\Models\News;
 use App\Models\HasilKlasemen;
-    use App\Models\Pembalap;
+use App\Models\Pembalap;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-   public function home()
+    public function home()
     {
-
-    $headline = News::latest()->first();
-    $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
-    return view('frontend.halamanutama', compact('headline', 'schedules'));
-    
+        $headline = News::latest()->first();
+        $news = News::latest()->take(4)->get();
+        $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
+        $klasemen = HasilKlasemen::orderBy('position', 'asc')->take(3)->get();
+        $videos = Video::latest()->take(4)->get();
+        return view('frontend.halamanutama', compact('headline', 'news', 'schedules', 'klasemen', 'videos'));
     }
 
-    public function index()
-    {
-        $kategoris = Kategori::all();
-        // kirim ke view blade
-        return view('frontend.berita.index', compact('kategoris'));
-
-        $headline = (object) [
-            'title' => 'Judul Headline Dummy',
-            'image' => 'dummy.jpg',
-            'content' => 'Isi berita dummy...',
-            'slug' => 'slug-dummy'
-        ];
-
-        $headline_thumbs = [
-            (object)[
-                'title' => 'Berita 1',
-                'image' => 'dummy1.jpg',
-                'created_at' => now()->subHours(1)
-            ],
-            (object)[
-                'title' => 'Berita 2',
-                'image' => 'dummy2.jpg',
-                'created_at' => now()->subHours(2)
-            ],
-        ];
-
-        return view('frontend.halamanutama', compact('headline', 'headline_thumbs'));
-    }
-
-    // Data berita terbaru dummy
     public function berita()
     {
-        $news = [
-            [
-                'title' => 'Berita 1',
-                'content' => 'Konten berita 1',
-                'slug' => 'berita-1',
-            ],
-            [
-                'title' => 'Berita 2',
-                'content' => 'Konten berita 2',
-                'slug' => 'berita-2',
-            ],
-        ];
-
-        return view('frontend.berita', compact('news'));
+        $news = \App\Models\News::latest()->paginate(8); // atau sesuai kebutuhan
+        $headline = \App\Models\News::latest()->first();
+        return view('frontend.berita', compact('news', 'headline'));
     }
 
-    // Data video dummy
-     public function video()
+    public function berita_detail($slug)
     {
-        $videos = [
-        (object)[
-            'title' => 'Video 1',
-            'video_url' => 'https://www.youtube.com/embed/xxxx1',
-            'slug' => 'video-1',
-        ],
-        (object)[
-            'title' => 'Video 2',
-            'video_url' => 'https://www.youtube.com/embed/xxxx2',
-            'slug' => 'video-2',
-        ],
-    ];
-    $headline = News::latest()->first();
-    $headline_thumbs = Headline::orderBy('created_at', 'desc')->take(3)->get();
-    $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
-    
-
-    return view('frontend.halamanutama', compact('videos', 'headline', 'schedules'));
+        $berita = \App\Models\News::where('slug', $slug)->firstOrFail();
+        $otherNews = \App\Models\News::where('id', '!=', $berita->id)->latest()->take(5)->get();
+        return view('frontend.detail_berita', compact('berita', 'otherNews'));
     }
 
-    // Jadwal pertandingan
-     public function schedule()
+    public function video()
+    {
+        $videos = \App\Models\Video::latest()->paginate(12);
+        return view('frontend.video', compact('videos'));
+    }
+
+    public function videoDetail($slug)
+    {
+        $video = \App\Models\Video::where('slug', $slug)->firstOrFail();
+        $otherVideos = \App\Models\Video::where('id', '!=', $video->id)->latest()->take(4)->get();
+        return view('frontend.video_detail', compact('video', 'otherVideos'));
+    }
+
+    public function schedule()
     {
         $schedules = JadwalPertandingan::orderBy('tanggal_dan_waktu', 'asc')->get();
-        $headline = News::latest()->first(); // TAMBAHKAN INI!
+        $headline = News::latest()->first();
         return view('frontend.jadwalpertandingan', compact('schedules', 'headline'));
     }
 

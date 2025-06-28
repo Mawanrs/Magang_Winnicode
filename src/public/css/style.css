@@ -1,96 +1,227 @@
-/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212; /* Warna latar belakang utama yang gelap */
-    color: #e0e0e0;
+  font-family: 'Montserrat', Arial, sans-serif;
 }
 
-.navbar-nav .nav-link {
-    color: #eee !important;
-    transition: color 0.18s, border-bottom 0.18s;
-    position: relative;
-    padding-bottom: 2px;
-  }
-  .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
-    color: #d9002b !important;
-    text-shadow: 0 1px 8px #d9002b22;
-  }
-  .navbar-brand span {
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    color: #fff;
-    text-transform: uppercase;
-  }
-  .navbar {
-    box-shadow: 0 2px 12px #0005;
-  }
-
-.navbar-brand-winni {
-    font-weight: bold;
-    color: #ffffff !important;
-    font-size: 1.5rem;
+.winnicode-topbar {
+  background: #000;
+  border-bottom: 2px solid #fff;
+}
+.winnicode-title {
+  color: #6C63FF;
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+.winnicode-subtitle {
+  font-size: 1em;
+  color: #bfbfbf;
+  font-weight: 400;
+  margin-top: -2px;
+  letter-spacing: 1px;
 }
 
-.navbar-brand-garuda {
-    font-size: 0.8rem;
-    color: #cccccc !important;
-    display: block;
-    line-height: 1;
+.wgp-navbar {
+  background: #101010;
+  border-bottom: 5px solid #d9002b;
+  min-height: 62px;
+}
+.logo-nav {
+  font-size: 1.75rem;
+  color: #fff;
+  margin-right: 12px;
+  letter-spacing: 1px;
+}
+.wgp-navbar .nav-link {
+  color: #eaeaea !important;
+  font-weight: 600;
+  font-size: 1.07em;
+  padding: 0 13px;
+}
+.wgp-navbar .nav-link:hover {
+  color: #ff255a !important;
+  text-decoration: underline;
 }
 
-.navbar.navbar-dark {
-    background-color: #1f1f1f !important; /* Sedikit lebih terang dari body */
-    border-bottom: 1px solid #333;
+.wgp-infobar {
+  width: 100%;
+  height: 41px;
+  font-size: 1.07em;
+  font-weight: 700;
+  color: #fff;
+}
+.wgp-infobar-1 {
+  background: #c00;
+}
+.wgp-infobar-2 {
+  background: #a00;
+  border-top: 2px solid #fff;
+  font-size: 1.05em;
+}
+.wgp-session {
+  letter-spacing: 1px;
 }
 
-.nav-link {
-    color: #c0c0c0 !important;
+.wgp-hero {
+  width: 100%;
+  min-height: 465px;
+  max-height: 530px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+}
+.wgp-hero-bg {
+  width: 100%;
+  min-height: 440px;
+  object-fit: cover;
+  filter: brightness(.90) blur(.0px);
+}
+.wgp-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,rgba(10,10,10,0.05) 0,rgba(0,0,0,0.35) 90%);
+}
+.wgp-hero-text {
+  position: absolute;
+  left: 0; bottom: 32px;
+  padding-left: 44px;
+  color: #fff;
+  max-width: 52vw;
+  text-shadow: 2px 2px 12px #111c;
+}
+.wgp-hero-type {
+  font-size: 1.08em;
+  letter-spacing: .5px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.wgp-hero-title {
+  font-size: 2.3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.wgp-hero-btn {
+  display: inline-block;
+  background: #ff234c;
+  color: #fff !important;
+  font-size: 1.05em;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 9px 32px;
+  margin-top: 5px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px #0002;
+}
+.wgp-hero-btn:hover {
+  background: #d9002b;
+  color: #fff !important;
 }
 
-.nav-link:hover,
-.nav-link.active {
-    color: #ffffff !important;
+.wgp-news-list {
+  background: #161616;
+  padding: 0 0 20px 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+.wgp-news-card {
+  background: #222;
+  border-radius: 9px;
+  overflow: hidden;
+  margin: 10px 0;
+  box-shadow: 0 2px 13px #0004;
+  color: #fff;
+  transition: transform .15s;
+}
+.wgp-news-card:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 5px 20px #0005;
+}
+.wgp-news-thumb {
+  width: 100%;
+  height: 94px;
+  object-fit: cover;
+}
+.wgp-news-info {
+  padding: 13px 14px 10px 14px;
+}
+.wgp-news-title {
+  font-size: 1.09em;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+.wgp-news-time {
+  color: #ccc;
+  font-size: .96em;
 }
 
-/* Sidebar Styles */
+@media (max-width: 991px) {
+  .wgp-hero-text { max-width: 99vw; padding-left: 19px;}
+  .wgp-hero-title { font-size: 1.3rem;}
+  .logo-nav { font-size: 1.25rem; }
+  .wgp-navbar .nav-link { font-size: 0.97em; padding: 0 6px;}
+}
+
+
+/* === SIDEBAR === */
 #sidebarMenu {
   box-shadow: 2px 0 24px #2221;
   transition: left .28s cubic-bezier(.9,0,.42,1.13);
 }
-#sidebarMenu.open {
-  left: 0 !important;
-}
-#sidebarOverlay.open {
-  display: block !important;
-}
+#sidebarMenu.open { left: 0 !important; }
+#sidebarOverlay.open { display: block !important; }
 
-
-.btn-sign {
-    margin-left: 5px;
+/* === SIDEBAR BUTTON CLOSE === */
+#closeSidebarBtn {
+  font-size: 2.15rem !important;
+  color: #222 !important;
 }
 
+aside#sidebarMenu {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+}
+aside#sidebarMenu ul li a {
+  color: #181818 !important;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  font-size: 1.13em;
+  border-radius: 7px;
+  transition: color .16s, background .14s;
+}
+aside#sidebarMenu ul li a:hover {
+  color: #fff !important;
+  background: #ff2d2d;
+}
+
+/* === SCROLLBAR MINIMAL === */
+::-webkit-scrollbar-thumb { background: #171717; border-radius: 10px; }
+::-webkit-scrollbar { width: 9px; background: #222; }
+
+
+/* Tombol khusus jika ingin efek merah */
 .btn-danger-custom {
-    background-color: #e50914; /* Warna merah khas */
-    border-color: #e50914;
+    background-color: #d9002b;
+    border-color: #d9002b;
+    color: white;
+    font-weight: 600;
+}
+.btn-danger-custom:hover {
+    background-color: #c30623;
+    border-color: #b1051d;
     color: white;
 }
 
-.btn-danger-custom:hover {
-    background-color: #f40612;
-    border-color: #f40612;
+/* Jika ingin tombol login/register tampil beda */
+.btn-sign {
+    margin-left: 7px;
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-weight: 700;
+    font-size: 1em;
 }
-
-.btn-outline-light-custom {
-    border-color: #c0c0c0;
-    color: #c0c0c0;
-}
-.btn-outline-light-custom:hover {
-    border-color: #ffffff;
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
 
 .footer-custom {
     background-color: #1f1f1f;
@@ -329,31 +460,6 @@ body {
     border-top: none; /* Karena border sudah ada di tab */
 }
 
-/* Ticket Page */
-.ticket-item {
-    border: 1px solid #333;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #1e1e1e;
-    border-radius: 5px;
-}
-.ticket-item h4 {
-    color: #fff;
-}
-.ticket-item .btn {
-    width: 100%; /* Tombol full width pada item tiket */
-}
-.ticket-category-filter .nav-link {
-    color: #a0a0a0;
-    background-color: #2a2a2a;
-    margin: 0 5px 10px 0; /* Margin antar filter */
-    border-radius: 5px;
-}
-.ticket-category-filter .nav-link.active {
-    color: #ffffff;
-    background-color: #e50914;
-}
-
 /* Breadcrumbs */
 .breadcrumb-custom .breadcrumb-item a {
     color: #e50914;
@@ -438,19 +544,4 @@ body {
     padding-bottom: 10px;
     border-bottom: 2px solid #e50914; /* Garis bawah merah untuk judul */
     display: inline-block; /* Agar border-bottom sesuai lebar teks */
-}
-
-/* Penyesuaian untuk gambar bendera di card rider */
-.rider-card-img {
-    width: 40px !important; /* Ukuran kecil untuk bendera */
-    height: auto !important;
-    border-radius: 3px;
-    margin-right: 10px;
-    vertical-align: middle;
-}
-.rider-nationality {
-    display: flex;
-    align-items: center;
-    font-size: 0.9em;
-    color: #b0b0b0;
 }
