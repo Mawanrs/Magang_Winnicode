@@ -9,6 +9,7 @@ class HasilKlasemen extends Model
     protected $table = 'hasil_klasemens';
 
     protected $fillable = [
+        'kategori',
         'position',
         'points',
         'avatar_url',

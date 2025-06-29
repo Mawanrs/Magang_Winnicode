@@ -1,0 +1,22 @@
+.news-comment-section {
+    margin-top: 24px;
+    margin-bottom: 36px;
+    max-width: 600px;
+}
+.comment-form input,
+.comment-form textarea {
+    border-radius: 6px;
+    border: 1.2px solid #ddd;
+    font-size: 1em;
+    padding: 10px 12px;
+}
+.comment-form textarea { min-height: 80px; }
+.comment-form .btn {
+    border-radius: 6px;
+    font-weight: 700;
+    margin-top: 3px;
+}
+.comment-list .comment-item {
+    border-left: 3px solid #ff4770;
+    box-shadow: 0 2px 8px #0001;
+}

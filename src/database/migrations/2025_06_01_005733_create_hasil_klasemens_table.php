@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('hasil_klasemens', function (Blueprint $table) {
             $table->id();
+            $table->string('kategori')->default('MOTOGP');
             $table->integer('position');
             $table->integer('points');
             $table->string('avatar_url')->nullable();

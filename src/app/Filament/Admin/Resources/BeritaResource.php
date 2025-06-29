@@ -57,6 +57,11 @@ class BeritaResource extends Resource
                 ->sortable()
                 ->searchable(),
 
+            Tables\Columns\TextColumn::make('penulis')
+                ->label('Penulis')
+                ->sortable()
+                ->searchable(),
+
             Tables\Columns\ImageColumn::make('image')
                 ->label('Gambar')
                 ->disk('public')
@@ -91,6 +96,11 @@ class BeritaResource extends Resource
                     ->maxLength(255)
                     ->unique(News::class, 'slug', ignoreRecord: true)
                     ->columnSpanFull(),
+
+                Forms\Components\TextInput::make('penulis')
+                    ->label('Penulis')
+                    ->required()
+                    ->maxLength(255),
 
                 Forms\Components\FileUpload::make('image')
                     ->label('Gambar')

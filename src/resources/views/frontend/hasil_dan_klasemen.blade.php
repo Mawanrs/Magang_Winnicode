@@ -23,7 +23,7 @@
                     <li class="nav-item"><a class="nav-link" href="/jadwal">Jadwal Pertandingan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
                     <li class="nav-item"><a class="nav-link" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/info_harga_tiket">Info Harga Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/info_harga_tiket">Berita</a></li>
                 </ul>
                 <div class="d-flex">
                     <a href="login.html" class="btn btn-outline-light-custom btn-sign">Masuk</a>

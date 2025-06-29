@@ -96,7 +96,7 @@
 <aside id="sidebarMenu" style="position:fixed; top:0; left:-320px; width:320px; height:100vh; background:#fff; z-index:1200; transition: left .28s cubic-bezier(.9,0,.42,1.13); box-shadow:2px 0 16px #2222;">
   <div class="p-4 pb-1 d-flex align-items-center">
     <button id="closeSidebarBtn" class="btn btn-link p-0 me-3" style="font-size:2rem;">&times;</button>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Moto_Gp_logo.svg" alt="MotoGP" style="height:40px;">
+    <img src="{{ asset('storage/banner-logo (1).png') }}" alt="MotoGP" style="height:40px;">
   </div>
   <ul class="list-unstyled ps-4 pe-4 mb-3" style="font-size:1.17em;">
     <li class="mb-3"><a href="/jadwal" class="text-dark text-decoration-none">Kalender</a></li>
@@ -106,50 +106,146 @@
   </ul>
 </aside>
 
-{{-- SECTION Klasemen & Jadwal --}}
-  <div class="container">
+{{-- KLASIMEN SECTION --}}
+<div class="container">
   <div class="klasemen-section">
-    <div class="klasemen-header d-flex justify-content-between align-items-center">
+    <div class="klasemen-header d-flex justify-content-between align-items-start">
       <h2 class="klasemen-title">2025 Michelin<sup>®</sup> Grand Prix of France</h2>
       <a href="{{ route('hasil_dan_klasemen') }}" class="klasemen-link">
         Klasemen Lengkap
-        <svg ...></svg>
+        <svg width="29" height="25" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23 2L30 11L23 20" stroke="#111" stroke-width="2.7"/>
+            <line x1="30" y1="11" x2="2" y2="11" stroke="#111" stroke-width="2.7"/>
+        </svg>
       </a>
     </div>
-    <div class="klasemen-tabs d-flex">
-      <div class="klasemen-tab active">MOTOGP™</div>
-      <div class="klasemen-tab">MOTO2™</div>
-      <div class="klasemen-tab">MOTO3™</div>
-      <div class="klasemen-tab">MOTOE™</div>
+    <div class="klasemen-tabs d-flex" id="klasemen-tabs">
+      <div class="klasemen-tab active" data-target="motogp">MOTOGP™</div>
+      <div class="klasemen-tab" data-target="moto2">MOTO2™</div>
+      <div class="klasemen-tab" data-target="moto3">MOTO3™</div>
+      <div class="klasemen-tab" data-target="motoe">MOTOE™</div>
     </div>
-    <div class="klasemen-table-wrapper">
-      <table class="klasemen-table">
-        <thead>
-          <tr>
-            <th>Pos.</th>
-            <th>Pembalap</th>
-            <th>Tim</th>
-            <th>Poin</th>
-            <th>Gap</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($klasemen as $k => $row)
-            <tr class="{{ $k==0 ? 'top-klasemen' : '' }}">
-              <td>{{ $row->position }}</td>
-              <td class="klasemen-nama">{{ $row->rider_name }}</td>
-              <td>
-                @if($row->country_code)
-                  <img src="https://flagcdn.com/24x18/{{ strtolower($row->country_code) }}.png" alt="{{ $row->country_code }}" width="24" height="18" style="margin-right:4px;">
-                @endif
-                {{ $row->team }}
-              </td>
-              <td class="klasemen-poin">{{ $row->points }}</td>
-              <td class="klasemen-gap">{{ $row->gap_time }}</td>
+    <div class="klasemen-tab-content">
+      {{-- MOTOGP --}}
+      <div class="klasemen-table-wrapper tab-panel active" id="motogp">
+        <table class="klasemen-table">
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Pembalap</th>
+              <th>Tim</th>
+              <th>Poin</th>
+              <th>Gap</th>
             </tr>
-          @endforeach
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @foreach($klasemen_motogp as $k => $row)
+              <tr class="{{ $k==0 ? 'top-klasemen' : '' }}">
+                <td>{{ $row->position }}</td>
+                <td class="klasemen-nama">{{ $row->rider_name }}</td>
+                <td>
+                  @if($row->country_code)
+                    <img src="https://flagcdn.com/24x18/{{ strtolower($row->country_code) }}.png" alt="{{ $row->country_code }}" width="24" height="18" style="margin-right:6px;">
+                  @endif
+                  {{ $row->team }}
+                </td>
+                <td class="klasemen-poin">{{ $row->points }}</td>
+                <td class="klasemen-gap">{{ $row->gap_time }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      {{-- MOTO2 --}}
+      <div class="klasemen-table-wrapper tab-panel" id="moto2">
+        <table class="klasemen-table">
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Pembalap</th>
+              <th>Tim</th>
+              <th>Poin</th>
+              <th>Gap</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($klasemen_moto2 as $k => $row)
+              <tr class="{{ $k==0 ? 'top-klasemen' : '' }}">
+                <td>{{ $row->position }}</td>
+                <td class="klasemen-nama">{{ $row->rider_name }}</td>
+                <td>
+                  @if($row->country_code)
+                    <img src="https://flagcdn.com/24x18/{{ strtolower($row->country_code) }}.png" alt="{{ $row->country_code }}" width="24" height="18" style="margin-right:6px;">
+                  @endif
+                  {{ $row->team }}
+                </td>
+                <td class="klasemen-poin">{{ $row->points }}</td>
+                <td class="klasemen-gap">{{ $row->gap_time }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      {{-- MOTO3 --}}
+      <div class="klasemen-table-wrapper tab-panel" id="moto3">
+        <table class="klasemen-table">
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Pembalap</th>
+              <th>Tim</th>
+              <th>Poin</th>
+              <th>Gap</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($klasemen_moto3 as $k => $row)
+              <tr class="{{ $k==0 ? 'top-klasemen' : '' }}">
+                <td>{{ $row->position }}</td>
+                <td class="klasemen-nama">{{ $row->rider_name }}</td>
+                <td>
+                  @if($row->country_code)
+                    <img src="https://flagcdn.com/24x18/{{ strtolower($row->country_code) }}.png" alt="{{ $row->country_code }}" width="24" height="18" style="margin-right:6px;">
+                  @endif
+                  {{ $row->team }}
+                </td>
+                <td class="klasemen-poin">{{ $row->points }}</td>
+                <td class="klasemen-gap">{{ $row->gap_time }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      {{-- MOTOE --}}
+      <div class="klasemen-table-wrapper tab-panel" id="motoe">
+        <table class="klasemen-table">
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Pembalap</th>
+              <th>Tim</th>
+              <th>Poin</th>
+              <th>Gap</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($klasemen_motoe as $k => $row)
+              <tr class="{{ $k==0 ? 'top-klasemen' : '' }}">
+                <td>{{ $row->position }}</td>
+                <td class="klasemen-nama">{{ $row->rider_name }}</td>
+                <td>
+                  @if($row->country_code)
+                    <img src="https://flagcdn.com/24x18/{{ strtolower($row->country_code) }}.png" alt="{{ $row->country_code }}" width="24" height="18" style="margin-right:6px;">
+                  @endif
+                  {{ $row->team }}
+                </td>
+                <td class="klasemen-poin">{{ $row->points }}</td>
+                <td class="klasemen-gap">{{ $row->gap_time }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -291,10 +387,7 @@
 {{-- === BOOTSTRAP ICONS CDN === --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-{{-- === WINNICODE CSS (PASTIKAN DIPANGGIL DI HEAD atau bawah sebelum </body>) === --}}
-<link rel="stylesheet" href="{{ asset('css/winnicode.css') }}">
-
-{{-- === SIDEBAR JS (sama seperti sebelumnya) === --}}
+{{-- === SIDEBAR JS === --}}
 <script>
   const sidebar = document.getElementById('sidebarMenu');
   const openBtn = document.getElementById('openSidebarBtn');
@@ -310,4 +403,22 @@
     if(e.key==='Escape') { sidebar.style.left = '-320px'; overlay.style.display = 'none'; document.body.style.overflow = ''; }
   });
 </script>
+
+{{-- === CUSTOM JS UNTUK TAB KLASIMEN === --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.klasemen-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            // Remove active dari semua tab
+            document.querySelectorAll('.klasemen-tab').forEach(t => t.classList.remove('active'));
+            // Hide semua panel
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            // Activate yang diklik
+            this.classList.add('active');
+            document.getElementById(this.getAttribute('data-target')).classList.add('active');
+        });
+    });
+});
+</script>
+
 @endsection

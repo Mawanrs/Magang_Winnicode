@@ -28,6 +28,16 @@ class HasilKlasemenResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Grid::make(2)->schema([
+                    Forms\Components\Select::make('kategori')
+                        ->label('Kategori')
+                        ->options([
+                            'MOTOGP' => 'MOTOGP™',
+                            'MOTO2'  => 'MOTO2™',
+                            'MOTO3'  => 'MOTO3™',
+                            'MOTOE'  => 'MOTOE™',
+                        ])
+                        ->required(),
+
                     Forms\Components\TextInput::make('position')
                         ->label('Posisi')
                         ->numeric()
@@ -82,6 +92,11 @@ class HasilKlasemenResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('kategori')
+                    ->label('Kategori')
+                    ->sortable()
+                    ->searchable(),
+                    
                 Tables\Columns\TextColumn::make('position')
                     ->label('Pos')
                     ->sortable(),
@@ -116,6 +131,7 @@ class HasilKlasemenResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\ImageColumn::make('avatar_url')
+                    ->disk('public')
                     ->label('Foto')
                     ->circular()
                     ->size(45),
