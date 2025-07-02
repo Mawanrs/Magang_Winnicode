@@ -1,264 +1,268 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasil & Klasemen - WinniGP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href={{ asset('css/style.css') }}>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <span class="navbar-brand-winni">WinniGP</span>
-                <span class="navbar-brand-garuda">GARUDA TEKNOLOGI</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="/jadwal">Jadwal Pertandingan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/info_harga_tiket">Berita</a></li>
-                </ul>
-                <div class="d-flex">
-                    <a href="login.html" class="btn btn-outline-light-custom btn-sign">Masuk</a>
-                    <a href="create_account.html" class="btn btn-danger-custom btn-sign">Daftar</a>
+@extends('layouts.app')
+@section('body-class', 'light-bg')
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/hasilklasemen.css') }}">
+@endpush
+
+@section('content')
+
+{{-- ==== HEADER WINNICODE ==== --}}
+<div class="winnicode-topbar text-center py-3">
+    <img src="{{ asset('storage/banner-logo (1).png') }}" alt="Winni Code" class="winnicode-logo">
+</div>
+<hr class="winnicode-line">
+
+{{-- ==== NAVBAR ==== --}}
+<nav class="navbar navbar-expand-lg navbar-dark winni-navbar">
+  <div class="container-fluid">
+    <button id="openSidebarBtn" class="btn btn-link p-0 me-2" type="button" style="font-size:2.1rem;">
+      <span class="winnicode-menuicon"></span>
+    </button>
+    <a class="navbar-brand d-flex align-items-center me-3" href="/">
+      <span class="fw-bold winni-navbar-brand">WinniGP</span>
+    </a>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold winni-navbar-menu">
+        <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal Pertandingan</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasmen</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/videos">Video</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/berita">Berita</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto align-items-center fw-bold winni-navbar-auth">
+        @guest
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/login') }}">Masuk</a>
+          </li>
+          <li class="nav-item">
+            <span class="winni-auth-divider">|</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/register') }}">Daftar</a>
+          </li>
+        @else
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/profile') }}">Hai, {{ Auth::user()->name }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+               style="color: #eee8e8; font-weight: 600;">Keluar</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+          </li>
+        @endguest
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{{-- SIDEBAR OVERLAY + MENU--}}
+<div id="sidebarOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.08); z-index:1099;"></div>
+<aside id="sidebarMenu" style="position:fixed; top:0; left:-320px; width:320px; height:100vh; background:#fff; z-index:1200; transition: left .28s cubic-bezier(.9,0,.42,1.13); box-shadow:2px 0 16px #2222;">
+  <div class="p-4 pb-1 d-flex align-items-center">
+    <button id="closeSidebarBtn" class="btn btn-link p-0 me-3" style="font-size:2rem;">&times;</button>
+    <img src="{{ asset('storage/banner-logo (1).png') }}" alt="MotoGP" style="height:40px;">
+  </div>
+  <ul class="list-unstyled ps-4 pe-4 mb-3" style="font-size:1.17em;">
+    <li class="mb-3"><a href="/jadwal" class="text-dark text-decoration-none">Jadwal Pertandingan</a></li>
+    <li class="mb-3"><a href="/hasil_dan_klasemen" class="text-dark text-decoration-none">Hasil & Klasemen</a></li>
+    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
+    <li class="mb-3"><a href="/videos" class="text-dark text-decoration-none">Video</a></li>
+    <li class="mb-3"><a href="/berita" class="text-dark text-decoration-none">Berita</a></li>
+  </ul>
+</aside>
+<div class="container mt-4">
+    <h1 class="section-title mb-4">Hasil & Klasemen</h1>
+
+    {{-- Filter kategori --}}
+    <form method="GET" action="{{ route('hasil_dan_klasemen') }}" class="mb-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="kategori" class="form-label">Kategori:</label>
+            </div>
+            <div class="col-auto">
+                <select name="kategori" id="kategori" class="form-select" onchange="this.form.submit()">
+                    <option value="MOTOGP" {{ request('kategori') == 'MOTOGP' ? 'selected' : '' }}>MotoGP</option>
+                    <option value="MOTO2" {{ request('kategori') == 'MOTO2' ? 'selected' : '' }}>Moto2</option>
+                    <option value="MOTO3" {{ request('kategori') == 'MOTO3' ? 'selected' : '' }}>Moto3</option>
+                    <option value="MOTOE" {{ request('kategori') == 'MOTOE' ? 'selected' : '' }}>MotoE</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#hasil">Hasil Balapan</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#klasemen">Klasemen</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        {{-- Tab Hasil Balapan --}}
+        <div class="tab-pane fade show active" id="hasil">
+            <h3>Hasil Balapan - {{ $kategori }}</h3>
+
+            @if($cuaca)
+                <div class="mb-3">
+                    <strong>Cuaca:</strong> {{ $cuaca->cuaca }} | 
+                    <strong>Suhu Udara:</strong> {{ $cuaca->suhu_udara }}º |
+                    <strong>Suhu Tanah:</strong> {{ $cuaca->suhu_tanah }}º |
+                    <strong>Kelembapan:</strong> {{ $cuaca->kelembapan }}% |
+                    <strong>Kondisi Lintasan:</strong> {{ $cuaca->kondisi_lintasan }}
                 </div>
-            </div>
-        </div>
-    </nav>
+            @endif
 
-    <div class="container mt-4">
-        <h1 class="section-title d-inline-block mb-4">Hasil & Klasemen</h1>
-
-        <div class="row mb-4 results-filters">
-            <div class="col-md-3">
-                <label for="filterTahun" class="form-label">Tahun</label>
-                <select class="form-select" id="filterTahun">
-                    <option selected>2025</option>
-                    <option>2024</option>
-                    <option>2023</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="filterGrandPrix" class="form-label">Grands Prix</label>
-                <select class="form-select" id="filterGrandPrix">
-                    <option>Semua</option>
-                    <option selected>Indonesia</option> <option>Prancis</option>
-                    <option>Spanyol</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="filterTipe" class="form-label">Tipe</label>
-                <select class="form-select" id="filterTipe">
-                    <option selected>Hasil Balapan</option> <option>Klasemen</option> <option>Kualifikasi</option>
-                    <option>Latihan Bebas</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="filterKategori" class="form-label">Kategori</label>
-                <select class="form-select" id="filterKategori">
-                    <option selected>MotoGP</option>
-                    <option>Moto2</option>
-                    <option>Moto3</option>
-                    <option>MotoE</option>
-                </select>
-            </div>
-        </div>
-
-        <ul class="nav nav-tabs nav-tabs-custom mb-3" id="resultTypeTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="race-result-tab" data-bs-toggle="tab" data-bs-target="#race-result-content" type="button" role="tab">Hasil Balapan</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="standings-tab" data-bs-toggle="tab" data-bs-target="#standings-content" type="button" role="tab">Klasemen</button>
-            </li>
-        </ul>
-
-        <div class="tab-content" id="resultTypeTabContent">
-            <div class="tab-pane fade show active" id="race-result-content" role="tabpanel" aria-labelledby="race-result-tab">
-                <h3 class="mb-3">Hasil Balapan - MotoGP Indonesia 2025</h3>
-                <div class="weather-info mb-3">
-                    <span><strong>Tanah:</strong> 19º</span>
-                    <span><strong>Kelembapan:</strong> 80%</span>
-                    <span><strong>Kondisi Lintasan:</strong> Kering</span>
-                    <span><strong>Hujan Lebat:</strong> 16º</span> </div>
-
+            @if($hasilBalapan->isEmpty())
+                <div class="alert alert-warning">Tidak ada hasil balapan untuk kategori ini.</div>
+            @else
                 <div class="table-responsive">
-                    <table class="table table-custom table-hover">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Pos.</th>
-                                <th>Poin</th>
+                                <th>Pos</th>
                                 <th>Pembalap</th>
                                 <th>Tim</th>
                                 <th>Waktu/Gap</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>25</td>
-                                <td>J.Zarco</td>
-                                <td>Castrol Honda LCR</td>
-                                <td>45:47.541</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>20</td> <td>Pembalap B</td>
-                                <td>Tim Y</td>
-                                <td>+19.907</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>16</td> <td>Pembalap C</td>
-                                <td>Tim Z</td>
-                                <td>+22.500</td>
-                            </tr>
-                            <tr>
-                                <td>15</td>
-                                <td>1</td> <td>Pembalap O</td>
-                                <td>Tim Alpha</td>
-                                <td>+1:05.123</td>
-                            </tr>
+                            @foreach($hasilBalapan as $hasil)
+                                <tr>
+                                    <td>{{ $hasil->posisi }}</td>
+                                    <td>{{ $hasil->pembalap }}</td>
+                                    <td>{{ $hasil->tim }}</td>
+                                    <td>{{ $hasil->waktu_gap ?? '-' }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+            @endif
 
-                <h4 class="mt-4">Tidak Diklasifikasikan</h4>
-                 <div class="table-responsive">
-                    <table class="table table-custom">
-                        <tbody>
-                            <tr><td>J.Zarco</td><td>Castrol Honda LCR</td><td>22 Laps</td></tr> </tbody>
-                    </table>
-                </div>
-
-                <h4 class="mt-4">Tidak Finis Lap 1</h4>
-                 <div class="table-responsive">
-                    <table class="table table-custom">
-                        <tbody>
-                            <tr><td>Pembalap X</td><td>Tim Omega</td><td>DNF</td></tr></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="standings-content" role="tabpanel" aria-labelledby="standings-tab">
-                <h3 class="mb-3" id="klasemen">Klasemen Pembalap - MotoGP 2025</h3>
-                <div class="table-responsive">
-                    <table class="table table-custom table-hover">
-                        <thead>
-                            <tr>
-                                <th>Pos.</th>
-                                <th>Pembalap</th>
-                                <th>Tim</th>
-                                <th>Poin</th>
-                                <th>Gap</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>M.Marquez</td>
-                                <td>Ducati Lenovo Team</td>
-                                <td>171</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>M.Marquez</td> <td>Ducati Lenovo Team</td>
-                                <td>149</td>
-                                <td>-22</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>M.Marquez</td> <td>Ducati Lenovo Team</td>
-                                <td>120</td>
-                                <td>-51</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>J.Zarco</td>
-                                <td>Castrol Honda LCR</td>
-                                <td>110</td>
-                                <td>-61</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                 <h3 class="mt-5 mb-3">Klasemen Tim - MotoGP 2025</h3>
-                <div class="table-responsive">
-                    <table class="table table-custom table-hover">
-                        <thead>
-                            <tr>
-                                <th>Pos.</th>
-                                <th>Tim</th>
-                                <th>Poin</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Ducati Lenovo Team</td>
-                                <td>320</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Aprilia Racing</td>
-                                <td>280</td>
-                            </tr>
-                             </tbody>
-                    </table>
-                </div>
-            </div>
+            @if($tidakDiklasifikasikan->count())
+                <h5 class="mt-4">Tidak Diklasifikasikan</h5>
+                <ul>
+                    @foreach($tidakDiklasifikasikan as $tdk)
+                        <li>{{ $tdk->pembalap }} - {{ $tdk->tim }} (DNF)</li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
+
+        {{-- Tab Klasemen --}}
+          @if($klasemenTim->isNotEmpty())
+        <div class="alert alert-warning">Data klasemen tim belum tersedia untuk kategori {{ $kategori }}.</div>
+    @else
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Tim</th>
+                        <th>Pembalap</th>
+                        <th>Poin</th>
+                        <th>Gap</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($klasemenTim as $tim)
+                        <tr>
+                            <td>{{ $tim->posisi }}</td>
+                            <td>{{ $tim->tim }}</td>
+                            <td>{{ $tim->pembalap }}</td>
+                            <td>{{ $tim->poin }}</td>
+                            <td>{{ $tim->gap ?? '-' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+</div>
+
+{{-- FOOTER --}}
+<footer class="footer-wgp">
+  <div class="footer-wgp-head">
+    <div class="footer-wgp-title">WinniGP</div>
+    <div class="footer-wgp-sponsor">Sponsor Resmi</div>
+    <div class="footer-wgp-logo">
+      <img src="{{ asset('storage/logo (1).png') }}" alt="WinniGP" />
     </div>
+  </div>
+  <div class="footer-wgp-divider"></div>
+  <div class="footer-wgp-bottom">
+    <div class="footer-wgp-col">
+      <div class="footer-wgp-col-title">Informasi</div>
+      <ul>
+        <li><a href="/jadwal">Jadwal Pertandingan</a></li>
+        <li><a href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
+        <li><a href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+        <li><a href="/videos">Video</a></li>
+        <li><a href="/berita">Berita</a></li>
+      </ul>
+    </div>
+    <div class="footer-wgp-col">
+      <div class="footer-wgp-col-title">SITEMAP</div>
+      <ul>
+        <li><a href="https://winnicode.com/">Beranda</a></li>
+        <li><a href="https://winnicode.com/explore/berita">Berita</a></li>
+        <li><a href="https://winnicode.com/kontak-kami">Kontak Kami</a></li>
+        <li><a href="https://winnicode.com/privasi-policy">Privasi & Policy</a></li>
+        <li><a href="https://winnicode.com/tentang">Tentang</a></li>
+      </ul>
+    </div>
+    <div class="footer-wgp-col">
+    <div class="footer-wgp-col-title">Bagikan</div>
+      <div class="footer-wgp-sosmed">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}" target="_blank" rel="noopener" title="Bagikan ke Facebook">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a href="https://api.whatsapp.com/send?text={{ urlencode('Cek websitenya: '.url('/').' - dari '.(Auth::check() ? Auth::user()->name : 'anonim')) }}" target="_blank">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?text={{ urlencode('Cek website ini! - dari Mawan') }}&url={{ url('/') }}" target="_blank">
+          <i class="bi bi-twitter-x"></i>
+        </a>
+      </div>
+  </div>
+</footer>
 
-    <footer class="footer-custom mt-5">
-        <div class="container">
-            <div class="row">
-                 <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                    <h5 class="text-uppercase">WinniGP</h5>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                    <h5 class="text-uppercase">Informasi</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="schedule.html">Jadwal Pertandingan</a></li>
-                        <li><a href="results.html">Hasil & Klasemen</a></li>
-                        <li><a href="tickets.html">Informasi Harga Tiket</a></li>
-                        <li><a href="index.html">Berita</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-                    <h5 class="text-uppercase">Sitemap</h5>
-                    <ul class="list-unstyled mb-0">
-                         <li><a href="index.html">Beranda</a></li>
-                        <li><a href="news.html">Berita</a></li>
-                        <li><a href="#">Kontak Kami</a></li>
-                        <li><a href="#">Privasi & Policy</a></li>
-                        <li><a href="#">Tentang</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-uppercase">Bagikan</h5>
-                    <div class="social-icons">
-                        <a href="#" class="text-light"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
-                         <span class="ms-2">FOX</span>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center p-3 mt-4" style="background-color: rgba(0, 0, 0, 0.2);">
-                © 2025 WinniGP. All rights reserved.
-            </div>
-        </div>
-    </footer>
+{{-- === SIDEBAR JS === --}}
+<script>
+  const sidebar = document.getElementById('sidebarMenu');
+  const openBtn = document.getElementById('openSidebarBtn');
+  const closeBtn = document.getElementById('closeSidebarBtn');
+  const overlay = document.getElementById('sidebarOverlay');
+  openBtn.onclick = function() {
+    sidebar.style.left = '0'; overlay.style.display = 'block'; document.body.style.overflow = 'hidden';
+  };
+  closeBtn.onclick = overlay.onclick = function() {
+    sidebar.style.left = '-320px'; overlay.style.display = 'none'; document.body.style.overflow = '';
+  };
+  window.addEventListener('keydown', function(e){
+    if(e.key==='Escape') { sidebar.style.left = '-320px'; overlay.style.display = 'none'; document.body.style.overflow = ''; }
+  });
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{{-- === CUSTOM JS UNTUK TAB KLASIMEN === --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.klasemen-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            // Remove active dari semua tab
+            document.querySelectorAll('.klasemen-tab').forEach(t => t.classList.remove('active'));
+            // Hide semua panel
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            // Activate yang diklik
+            this.classList.add('active');
+            document.getElementById(this.getAttribute('data-target')).classList.add('active');
+        });
+    });
+});
+</script>
+
+@endsection

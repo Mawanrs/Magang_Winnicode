@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_pertandingan');
             $table->string('negara');
             $table->dateTime('tanggal_dan_waktu')->nullable();
-            $table->enum('status', ['UP NEXT', 'FINISHED'])->default('UP NEXT');
+            $table->string('status')->default('BELUM MULAI')->change();
             $table->string('nama_event');
             $table->timestamps();
         });

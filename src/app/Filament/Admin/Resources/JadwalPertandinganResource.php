@@ -81,8 +81,13 @@ class JadwalPertandinganResource extends Resource
             ->dateTime()
             ->sortable(),
             Tables\Columns\TextColumn::make('status')
+            ->label('Status')
             ->badge()
-            ->sortable(),
+            ->color(fn (string $state): string => match ($state) {
+                'BELUM MULAI' => 'gray',
+                'BERLANGSUNG' => 'warning',
+                'SELESAI' => 'success',
+            }),
             Tables\Columns\TextColumn::make('nama_event')->label('Event')
             ->sortable()
             ->searchable(),

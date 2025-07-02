@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Admin\Resources\HasilKlasemenResource\Pages;
+namespace App\Filament\Admin\Resources\HasilBalapanResource\Pages;
 
-use App\Filament\Admin\Resources\HasilKlasemenResource;
+use App\Filament\Admin\Resources\HasilBalapanResource;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateHasilKlasemen extends CreateRecord
+class CreateHasilBalapan extends CreateRecord
 {
-    protected static string $resource = HasilKlasemenResource::class;
+    protected static string $resource = HasilBalapanResource::class;
 
     protected function getRedirectUrl(): string
     {

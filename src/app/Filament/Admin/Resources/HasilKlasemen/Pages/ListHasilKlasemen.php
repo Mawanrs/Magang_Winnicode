@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Admin\Resources\HasilKlasemenResource\Pages;
+namespace App\Filament\Admin\Resources\KlasemenTimResource\Pages;
 
-use App\Filament\Admin\Resources\HasilKlasemenResource;
+use App\Filament\Admin\Resources\KlasemenTimResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListHasilKlasemen extends ListRecords
+class ListKlasemenTim extends ListRecords
 {
-    protected static string $resource = HasilKlasemenResource::class;
+    protected static string $resource = KlasemenTimResource::class;
 
     protected function getHeaderActions(): array
     {
