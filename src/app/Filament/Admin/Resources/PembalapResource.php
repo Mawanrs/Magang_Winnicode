@@ -26,7 +26,7 @@ class PembalapResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['rider_number', 'rider_name', 'team', 'country_code'];
+        return ['rider_number', 'rider_name', 'team', 'kelas', 'country_code'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
@@ -35,6 +35,7 @@ class PembalapResource extends Resource
             'Nomor' => $record->rider_number,
             'Nama' => $record->rider_name,
             'Tim' => $record->team,
+            'Kelas' => $record->kelas,
             'Negara' => $record->country_code,
             'Bendera' => $record->flag_image ? '✔️ Ada' : '❌ Tidak ada',
             'Foto Pembalap' => $record->avatar_url ? '✔️ Ada' : '❌ Tidak ada',
@@ -46,6 +47,14 @@ class PembalapResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Grid::make(2)->schema([
+                    Forms\Components\Select::make('kategori')
+                        ->label('Kategori')
+                        ->required()
+                        ->options([
+                            'Pembalap' => 'Pembalap',
+                            'Legenda' => 'Legenda',
+                        ])
+                        ->searchable(),
                     Forms\Components\TextInput::make('rider_number')
                         ->label('Nomor Pembalap')
                         ->required(),
@@ -57,6 +66,16 @@ class PembalapResource extends Resource
                     Forms\Components\TextInput::make('team')
                         ->label('Tim')
                         ->required(),
+
+                    Forms\Components\Select::make('kelas')
+                        ->label('Kelas Balap')
+                        ->required()
+                        ->options([
+                            'MotoGP' => 'MotoGP',
+                            'Moto2' => 'Moto2',
+                            'Moto3' => 'Moto3',
+                        ])
+                        ->searchable(),
 
                     Forms\Components\FileUpload::make('flag_image')
                         ->label('Foto Bendera')
@@ -80,8 +99,11 @@ class PembalapResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('ID')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('kategori')->label('Kategori')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('kelas')->label('Kelas')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('rider_number')->label('Nomor')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('rider_name')->label('Nama')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('team')->label('Tim')->sortable()->searchable(),
                 Tables\Columns\ImageColumn::make('flag_image')
                     ->label('Bendera')
                     ->disk('public')
@@ -92,7 +114,6 @@ class PembalapResource extends Resource
                     ->disk('public')
                     ->circular()
                     ->defaultImageUrl(url('https://www.gravatar.com/avatar/64e1b8d34f425d19e1ee2ea7236d3028?d=mp&r=g&s=250')),
-                Tables\Columns\TextColumn::make('team')->label('Tim')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->label('Dibuat')->date()->sortable(),
             ])
             ->actions([

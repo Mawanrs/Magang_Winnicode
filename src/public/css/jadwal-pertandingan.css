@@ -9,131 +9,142 @@ html {
   scroll-behavior: smooth;
 }
 
-/* === HIGHLIGHT CARD === */
-.highlight-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.highlight-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-}
-
-.highlight-title {
-  font-size: 1.1rem;
-  color: #222;
-}
-
-.highlight-text {
-  font-size: 1.4rem;
-  color: #000;
+/* === STATUS LABEL WITH TRIANGLE === */
+.status-label {
+  font-weight: 600;
+  font-size: 1rem; /* Slightly larger font size for better readability */
+  padding: 8px 20px; /* Increased padding */
+  color: #fff;
+  text-transform: uppercase;
+  position: absolute;
+  top: 0;   /* Ensure it's at the top */
+  right: 0;  /* Align the label to the right */
+  background-color: #3498db; /* Blue for 'BELUM MULAI' */
+  z-index: 5;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  /* Adjusting triangle to be more subtle */
+  clip-path: polygon(100% 0, 100% 100%, 0% 100%, 0% 0);
 }
 
-.highlight-date {
-  font-size: 0.9rem;
-  color: #444;
-}
+
+/* Define color status classes */
+.status-selesai { background-color: #28a745; }  /* Green for finished */
+.status-berlangsung { background-color: #e74c3c; }  /* Red for ongoing */
+.status-upnext { background-color: #3498db; }   /* Blue for 'BELUM MULAI' */
 
 /* === JADWAL GRID === */
 .jadwal-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 2rem;
   margin: 2rem;
   padding-bottom: 2rem;
 }
 
+/* === JADWAL CARD === */
 .jadwal-card {
   background: #ffffff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* Soft shadow for modern look */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  width: 100%;
+  /* Removed fixed height to allow for flexible content */
+  display: flex;
+  flex-direction: column;
 }
 
 .jadwal-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Larger shadow on hover */
 }
 
-.jadwal-card > *:not(:last-child) {
-  margin-bottom: 0.5rem;
+/* === TANGGAL === */
+.jadwal-tanggal {
+  font-size: 1.1rem;
+  color: #555;
+  font-weight: 600; /* Bold for clarity */
 }
 
-/* Status Label */
-.jadwal-status {
-  display: inline-block;
-  padding: 0.25rem 0.6rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: white;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-}
-.jadwal-status.Selesai {
-  background-color: #6c757d;
-}
-.jadwal-status.Mendatang {
-  background-color: #28a745;
-}
-.jadwal-status.Berlangsung {
-  background-color: #ffc107;
-  color: #000;
+.tanggal {
+  font-weight: 700; /* Emphasize the dates */
 }
 
-/* Event Info */
-.jadwal-seri {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-weight: bold;
-  color: #dc3545;
+.event-year {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-left: 10px;
+    font-style: italic;
 }
 
-.jadwal-date {
-  font-size: 0.95rem;
-  color: #444;
-  margin: 0.5rem 0;
+.nomor-event {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 8px;
 }
 
-.jadwal-negara {
-  font-size: 0.9rem;
+/* === NAMA EVENT === */
+.event-mini-title {
+  font-size: 1.4rem; /* Larger title for better visibility */
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111;
+  margin-top: 1rem;
+}
+
+/* === NEGARA === */
+.event-mini-negara {
+  font-size: 1.1rem; /* Slightly larger font for country name */
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 0.3rem;
-}
-.jadwal-negara img {
-  width: 20px;
-  height: auto;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #00000033;
-}
-
-.jadwal-event {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 0.4rem;
-}
-
-.jadwal-desc {
-  font-size: 0.85rem;
   color: #777;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 }
 
-/* Next Race Card */
-.next-race-card {
-  background-color: #fff0f0;
-  border-left: 6px solid #c82333;
-  border-radius: 12px;
-  max-width: 600px;
-  margin: 2rem auto 0 auto;
-  padding: 1rem 1.25rem;
+/* Adjust padding between event info and the status label */
+.jadwal-card h5,
+.jadwal-card .event-mini-negara {
+  margin-bottom: 0.5rem;
 }
-.next-race-card h5 {
-  color: #dc3545;
+
+.next-race-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #dc3545; /* Red color for "urgent" label */
+  color: white;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-bottom-left-radius: 6px;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 600px) {
+  .jadwal-grid {
+    grid-template-columns: 1fr; /* Stack cards in a single column for smaller screens */
+    margin: 1rem;
+  }
+
+  .jadwal-card {
+    padding: 1rem;
+  }
+
+  .highlight-text {
+    font-size: 1.2rem;
+  }
+
+  .jadwal-date,
+  .jadwal-negara,
+  .jadwal-event,
+  .jadwal-desc {
+    font-size: 0.85rem;
+  }
 }
 
 /* === FOOTER === */
@@ -156,17 +167,20 @@ html {
   text-align: center;
   margin-bottom: 32px;
 }
+
 .footer-wgp-title {
   color: #222;
   font-size: 2rem;
   font-weight: 900;
   margin-bottom: 6px;
 }
+
 .footer-wgp-sponsor {
   font-size: 1em;
   color: #555;
   margin-bottom: 8px;
 }
+
 .footer-wgp-logo img {
   height: 70px;
 }
@@ -187,36 +201,41 @@ html {
   flex: 1 1 220px;
   min-width: 180px;
 }
+
 .footer-wgp-col-title {
   font-weight: 700;
   margin-bottom: 10px;
   color: #000;
 }
+
 .footer-wgp-col ul {
   list-style: none;
   padding-left: 0;
   margin: 0;
 }
+
 .footer-wgp-col ul li {
   margin-bottom: 6px;
 }
+
 .footer-wgp-col a {
   color: #333;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
+
 .footer-wgp-col a:hover {
   text-decoration: underline;
   color: #111;
 }
+
 .footer-wgp-col a:focus,
 .footer-wgp-col a:focus-visible {
   outline: 2px dashed #555;
   outline-offset: 2px;
 }
 
-/* Sosial Media */
 .footer-wgp-sosmed {
   display: flex;
   gap: 16px;
@@ -224,39 +243,13 @@ html {
   font-size: 1.3rem;
   margin-top: 12px;
 }
+
 .footer-wgp-sosmed a {
   color: #222;
   transition: color 0.2s, transform 0.2s;
 }
+
 .footer-wgp-sosmed a:hover {
   color: #555;
   transform: scale(1.1);
-}
-
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-  .footer-wgp-bottom {
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-  }
-}
-
-@media (max-width: 600px) {
-  .jadwal-grid {
-    grid-template-columns: 1fr;
-    margin: 1rem;
-  }
-  .jadwal-card {
-    padding: 1rem;
-  }
-  .highlight-text {
-    font-size: 1.2rem;
-  }
-  .jadwal-date,
-  .jadwal-negara,
-  .jadwal-event,
-  .jadwal-desc {
-    font-size: 0.85rem;
-  }
 }

@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('jadwal_pertandingans', function (Blueprint $table) {
             $table->id();
+            $table->string('nomor_event')->nullable();
             $table->string('nama_pertandingan');
             $table->string('negara');
             $table->dateTime('tanggal_dan_waktu')->nullable();
-            $table->string('status')->default('BELUM MULAI')->change();
+            $table->dateTime('tanggal_selesai')->nullable();
+            $table->string('status')->default('BELUM MULAI');
             $table->string('nama_event');
+            $table->string('perusahaan')->nullable();
             $table->timestamps();
         });
     }

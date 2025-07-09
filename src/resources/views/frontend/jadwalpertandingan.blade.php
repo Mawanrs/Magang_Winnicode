@@ -22,8 +22,10 @@
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold winni-navbar-menu">
         <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal Pertandingan</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasmen</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Legenda</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/videos">Video</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/berita">Berita</a></li>
       </ul>
       <ul class="navbar-nav ms-auto align-items-center fw-bold winni-navbar-auth">
         @guest
@@ -62,40 +64,40 @@
   <ul class="list-unstyled ps-4 pe-4 mb-3" style="font-size:1.17em;">
     <li class="mb-3"><a href="/jadwal" class="text-dark text-decoration-none">Kalender</a></li>
     <li class="mb-3"><a href="/hasil_dan_klasemen" class="text-dark text-decoration-none">Hasil & Klasemen</a></li>
-    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
+    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Legenda</a></li>
+    <li class="mb-3"><a href="/videos" class="text-dark text-decoration-none">Video</a></li>
+    <li class="mb-3"><a href="/berita" class="text-dark text-decoration-none">Berita</a></li>
   </ul>
 </aside>
 
-{{-- ==== JADWAL PERTANDINGAN ==== --}}
-@if ($nextRace)
-    <div class="next-race-card mb-4 p-4 shadow-sm rounded">
-        <h5 class="fw-bold mb-2">🏁 Next Race</h5>
-        <div class="fs-5 text-danger">{{ $nextRace->nama_event }}</div>
-        <div class="text-muted">
-            {{ \Carbon\Carbon::parse($nextRace->tanggal_dan_waktu)->format('d M Y H:i') }}
-        </div>
-    </div>
-@endif
+{{-- ==== JADWAL PERTANDINGAN 2025 ==== --}}
+<h2 class="text-center my-5">Jadwal Pertandingan 2025</h2>
 
 <div class="jadwal-grid">
     @foreach ($schedules as $j)
+        @php
+            $status = strtolower($j->status);
+            $statusClass = match($status) {
+                'belum mulai' => 'status-upnext',
+                'sedang berlangsung' => 'status-berlangsung',
+                'selesai' => 'status-selesai',
+                default => 'status-upnext'
+            };
+        @endphp
+
         <div class="jadwal-card">
-            <div class="jadwal-status {{ strtoupper(str_replace(' ', '', $j->status)) }}">
-                {{ $j->status }}
+            <div class="status-label {{ $statusClass }}">{{ strtoupper($status) }}</div>
+
+            <div class="jadwal-tanggal">
+                <span class="tanggal">{{ \Carbon\Carbon::parse($j->tanggal_mulai)->format('d M') }}</span> – 
+                <span class="tanggal">{{ \Carbon\Carbon::parse($j->tanggal_selesai)->format('d M') }}</span>
             </div>
-            <div class="jadwal-seri">{{ $j->seri }}</div>
-            <div class="jadwal-date">
-                {{ \Carbon\Carbon::parse($j->tanggal_mulai)->format('d M') }} -
-                {{ \Carbon\Carbon::parse($j->tanggal_selesai)->format('d M') }}
-            </div>
-            <div class="jadwal-negara">
-                @if($j->flag_url)
-                    <img src="{{ $j->flag_url }}" alt="{{ $j->negara }}">
-                @endif
-                {{ strtoupper($j->negara) }}
-            </div>
-            <div class="jadwal-event">{{ $j->nama_event }}</div>
-            <div class="jadwal-desc">{{ $j->deskripsi }}</div>
+
+            <h5 class="event-mini-title">
+                <span class="nomor-event">{{ $j->nomor_event }}. </span> 
+                {{ $j->nama_event }}
+            </h5>
+            <div class="event-mini-negara">{{ $j->negara }}</div>
         </div>
     @endforeach
 </div>
@@ -117,8 +119,9 @@
         <ul>
           <li><a href="/jadwal">Jadwal Pertandingan</a></li>
           <li><a href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
-          <li><a href="#">Informasi Harga Tiket</a></li>
-          <li><a href="#">Berita</a></li>
+          <li><a href="/pembalap_dan_tim">Pembalap & Legenda</a></li>
+          <li><a href="/videos">Video</a></li>
+          <li><a href="/berita">Berita</a></li>
         </ul>
       </div>
       <div class="footer-wgp-col">
@@ -167,20 +170,6 @@
   window.addEventListener('keydown', function(e){
     if(e.key==='Escape') { sidebar.style.left = '-320px'; overlay.style.display = 'none'; document.body.style.overflow = ''; }
   });
-</script>
-
-{{-- === JS UNTUK TAB KLASMEN === --}}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.klasemen-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.klasemen-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-            document.getElementById(this.getAttribute('data-target')).classList.add('active');
-        });
-    });
-});
 </script>
 
 @endsection

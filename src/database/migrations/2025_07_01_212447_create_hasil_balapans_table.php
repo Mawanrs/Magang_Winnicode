@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('kategori');
             $table->string('grand_prix');
             $table->year('tahun');
+            $table->string('type')->default('Grands Prix');
+            $table->string('sesi');
             $table->string('pembalap');
             $table->string('tim');
             $table->integer('posisi');

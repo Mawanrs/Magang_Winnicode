@@ -145,22 +145,21 @@ class FrontendController extends Controller
     {
         $kategori = $request->input('kategori', 'MOTOGP');
 
+        // Memastikan tahun yang dipilih dimasukkan dalam query
         $hasilBalapan = HasilBalapan::where([
-                ['tahun', 2025],
-                ['kategori', $kategori],
-                ['grand_prix', 'Netherlands'],
-                ['diklasifikasikan', true],
-            ])
-            ->orderBy('posisi')
-            ->get();
+            ['kategori', $kategori],
+            ['diklasifikasikan', true],
+        ])
+        ->orderBy('posisi')
+        ->get();
 
+        // Jika data untuk kategori dan tahun yang dipilih tidak ada
         $tidakDiklasifikasikan = HasilBalapan::where([
-                ['tahun', 2025],
-                ['kategori', $kategori],
-                ['grand_prix', 'Netherlands'],
-                ['diklasifikasikan', false],
-            ])->get();
+            ['kategori', $kategori],
+            ['diklasifikasikan', false],
+        ])->get();
 
+        // Mengambil data cuaca
         $cuaca = Cuaca::latest()->first();
 
         return view('frontend.hasil_balapan', compact(

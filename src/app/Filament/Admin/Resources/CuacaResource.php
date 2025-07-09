@@ -16,7 +16,7 @@ class CuacaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cloud';
 
-    protected static ?string $navigationGroup = 'Informasi';
+    protected static ?string $navigationGroup = 'Informasi Cuaca';
 
     protected static ?string $navigationLabel = 'Cuaca';
 

@@ -9,6 +9,8 @@ class Pembalap extends Model
     protected $table = 'pembalaps';
 
     protected $fillable = [
+        'kategori',
+        'kelas',
         'rider_number',
         'rider_name',
         'team',

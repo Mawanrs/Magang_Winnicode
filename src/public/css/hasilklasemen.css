@@ -25,6 +25,7 @@ main {
   flex: 1;
 }
 
+/* === HEADER WINNICODE === */
 .winnicode-topbar {
     background: #000;
     padding-top: 14px;
@@ -106,37 +107,7 @@ main {
     height: 4px;
     background: #fff;
     border-radius: 2px;
-    margin: 6px 0;
     transition: 0.2s;
-}
-.winnicode-menuicon::before { margin-top: 0; }
-.winnicode-menuicon::after { margin-bottom: 0; }
-
-.winni-navbar-auth {
-    gap: 12px;
-    padding-right: 24px;  /* Jarak dengan sisi kanan */
-    display: flex !important;
-    align-items: center;
-}
-
-@media (max-width: 600px) {
-    .winni-navbar-auth {
-        padding-right: 8px;
-    }
-}
-
-#sidebarMenu a {
-    text-decoration: none;
-    font-size: 1.1rem;
-    display: block;
-}
-
-#sidebarMenu .bi-x-lg {
-    color: #111;
-}
-
-#sidebarOverlay {
-    cursor: pointer;
 }
 
 /* === BODY === */
@@ -158,7 +129,6 @@ body.light-bg .footer-wgp-divider {
   border-top: 1px solid #333;
 }
 
-
 body {
     color: #000;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -170,121 +140,35 @@ body {
     font-weight: bold;
 }
 
+/* === TABLE STYLES === */
 .table-custom {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
 }
 
 .table-custom th, .table-custom td {
-    padding: 12px 15px;
-    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
 }
 
 .table-custom th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.weather-info span {
-    display: inline-block;
-    margin-right: 20px;
-    font-size: 0.95rem;
-}
-
-.nav-tabs-custom .nav-link.active {
-    background-color: #000;
+    background-color: #111;
     color: #fff;
 }
 
-.nav-tabs-custom .nav-link {
-    color: #000;
-}
-
-
-/* === NAVBAR === */
-.navbar {
-    background-color: #000;
-    padding: 1rem;
-}
-
-.navbar-brand-winni {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #fff;
-}
-
-.navbar-brand-garuda {
-    font-size: 0.8rem;
-    color: #ff0000;
-    display: block;
-}
-
-.nav-link {
-    /* color: #ddd !important; */
-    font-weight: 500;
-}
-
-.nav-link:hover,
-.nav-link.active {
-    border-bottom: 2px solid red;
-}
-
-/* === BUTTONS === */
-.btn-outline-light-custom {
-    border-color: #fff;
-    color: #fff;
-    margin-right: 0.5rem;
-}
-
-.btn-outline-light-custom:hover {
-    background-color: #fff;
-    color: #000;
-}
-
-.btn-danger-custom {
-    background-color: #ff0000;
-    color: #fff;
-}
-
-.btn-danger-custom:hover {
-    background-color: #cc0000;
-    color: #fff;
-}
-
-/* === TABS === */
-.nav-tabs-custom .nav-link {
-    background-color: transparent;
-    color: #000;
-    border: none;
-    font-weight: 500;
-}
-
-.nav-tabs-custom .nav-link.active {
-    color: #fff;
-    border-bottom: 3px solid #ff0000;
-}
-
-/* === TABLES === */
-.table-custom {
-    background-color: #1e1e1e;
-    color: #fff;
-}
-
-.table-custom thead {
-    background-color: #333;
-    color: #ff0000;
+.table-custom tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
 .table-custom tbody tr:hover {
-    background-color: #2c2c2c;
+    background-color: #f1f1f1;
 }
 
-.table td, .table th {
-    vertical-align: middle;
+.table-custom tbody tr td {
+    background-color: #fff;
+    color: #333;
 }
 
 /* === WEATHER INFO === */
@@ -292,11 +176,143 @@ body {
     display: flex;
     gap: 1.5rem;
     font-size: 0.9rem;
-    color: #ccc;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
-/* === FOOTER STYLES === */
+.weather-info strong {
+    color: #fff !important;
+}
 
+/* === NAV TABS === */
+.nav-tabs-custom .nav-link.active {
+    background-color: #000;
+    color: #fff;
+}
+
+.nav-tabs-custom .nav-link {
+    color: #000;
+}
+
+.nav-tabs .nav-link {
+    font-weight: 500;
+}
+
+.nav-tabs-custom .nav-link.active {
+    background-color: #ff0000;
+    color: #fff;
+    border-bottom: 3px solid #ff0000;
+}
+
+.nav-tabs .nav-item {
+    margin-right: 15px;
+}
+
+/* === TABLES === */
+.table-striped th, .table-striped td {
+    text-align: center;
+}
+
+.table-striped {
+    background-color: #ffffff;
+}
+
+.table-striped th {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.table-striped td {
+    background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.form-select {
+    width: 200px;
+    font-size: 1rem;
+}
+
+.form-group {
+    margin: 10px 20px;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.custom-select {
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.custom-select option {
+    background-color: #fff;
+    color: black;
+}
+
+.custom-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Weather Info Styling */
+.weather-info {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #222;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.weather-info strong {
+    color: #ff4770;
+}
+
+/* Tab Styling */
+.nav-tabs-custom .nav-link.active {
+    background-color: #ff4770;
+    color: #fff;
+}
+
+.nav-tabs-custom .nav-link {
+    color: #fff;
+    background-color: #222;
+}
+
+.nav-tabs .nav-item {
+    margin-right: 15px;
+}
+
+.nav-tabs .nav-link {
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+.nav-tabs-custom .nav-link.active {
+    background-color: #ff4770;
+    color: #fff;
+    border-bottom: 3px solid #ff4770;
+}
+
+/* === FOOTER === */
 .footer-wgp {
   background: #f6f6f6;
   border: 1px solid #e1e1e1;
@@ -383,25 +399,3 @@ body {
   transition: color 0.15s;
 }
 .footer-wgp-sosmed i:hover { color: #191919; }
-@media (max-width: 900px) {
-  .footer-wgp-bottom {
-    flex-direction: column;
-    gap: 24px;
-    text-align: center;
-    padding: 22px 5vw 0 5vw;
-  }
-  .footer-wgp-col { min-width: 0; margin-bottom: 0; }
-  .footer-wgp-col ul { margin-left: 16px;}
-}
-
-.footer-wgp-sosmed a {
-  display: inline-flex;
-  align-items: center;
-  color: #111;
-  opacity: 1;
-  font-size: 1.25em;
-  margin-right: 10px;
-  transition: color 0.18s;
-}
-.footer-wgp-sosmed a:last-child { margin-right: 0; }
-.footer-wgp-sosmed a:hover { color: #191919; }

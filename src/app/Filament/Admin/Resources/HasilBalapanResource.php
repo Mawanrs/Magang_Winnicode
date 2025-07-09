@@ -15,7 +15,9 @@ class HasilBalapanResource extends Resource
     protected static ?string $model = HasilBalapan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-trophy';
+
     protected static ?string $recordTitleAttribute = 'rider_name';
+    
     protected static ?int $navigationSort = -2;
 
     public static function getNavigationBadge(): ?string
@@ -47,6 +49,14 @@ class HasilBalapanResource extends Resource
                         ->numeric()
                         ->required(),
 
+                    Forms\Components\Select::make('type')
+                        ->label('Type')
+                        ->options([
+                            'Grands Prix' => 'Grands Prix',
+                            'MotoGP' => 'MotoGP',
+                        ])
+                        ->required(),
+
                     Forms\Components\TextInput::make('posisi')
                         ->label('Posisi')
                         ->numeric()
@@ -54,6 +64,18 @@ class HasilBalapanResource extends Resource
 
                     Forms\Components\TextInput::make('event')
                         ->label('Event')
+                        ->required(),
+
+                    Forms\Components\Select::make('sesi')
+                        ->label('Sesi')
+                        ->options([
+                            'RAC' => 'RAC',
+                            'Q1' => 'Q1',
+                            'Q2' => 'Q2',
+                            'FP1' => 'FP1',
+                            'FP2' => 'FP2',
+                            'FP3' => 'FP3',
+                        ])
                         ->required(),
 
                     Forms\Components\TextInput::make('waktu_gap')
@@ -94,8 +116,8 @@ class HasilBalapanResource extends Resource
                 ->label('Gap')
                 ->sortable(),
                 Tables\Columns\IconColumn::make('diklasifikasikan')
-                    ->label('Diklasifikasikan')
-                    ->boolean(),
+                ->label('Diklasifikasikan')
+                ->boolean(),
 
             ])
             ->actions([

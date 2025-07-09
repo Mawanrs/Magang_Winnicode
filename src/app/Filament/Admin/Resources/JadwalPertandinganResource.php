@@ -46,6 +46,9 @@ class JadwalPertandinganResource extends Resource
             ->schema([
                 Forms\Components\Grid::make(2)
                     ->schema([
+                        Forms\Components\TextInput::make('nomor_event')
+                            ->label('Nomor Event')
+                            ->required(),
                         Forms\Components\TextInput::make('nama_pertandingan')
                             ->label('Nama Pertandingan')
                             ->required()
@@ -53,11 +56,17 @@ class JadwalPertandinganResource extends Resource
                         Forms\Components\DateTimePicker::make('tanggal_dan_waktu')
                             ->label('Tanggal & Waktu')
                             ->required(),
+                        Forms\Components\DateTimePicker::make('tanggal_selesai')
+                            ->label('Tanggal Selesai')
+                            ->required(),
                         Forms\Components\TextInput::make('negara')
                             ->label('Negara')
                             ->required(),
                             Forms\Components\TextInput::make('nama_event')
                             ->label('Nama Event')
+                            ->required(),
+                        Forms\Components\TextInput::make('perusahaan')
+                            ->label('Perusahaan')
                             ->required(),
                     ]),
             ]);
@@ -65,47 +74,56 @@ class JadwalPertandinganResource extends Resource
 
 
     public static function table(Table $table): Table
-{
-    return $table
-        ->columns([
-            Tables\Columns\TextColumn::make('id')
-            ->sortable()
-            ->searchable(),
-            Tables\Columns\TextColumn::make('nama_pertandingan')->label('Nama Pertandingan')
-            ->sortable()
-            ->searchable(),
-            Tables\Columns\TextColumn::make('negara')->label('Negara')
-            ->sortable()
-            ->searchable(),
-            Tables\Columns\TextColumn::make('tanggal_dan_waktu')->label('Tanggal & Waktu')
-            ->dateTime()
-            ->sortable(),
-            Tables\Columns\TextColumn::make('status')
-            ->label('Status')
-            ->badge()
-            ->color(fn (string $state): string => match ($state) {
-                'BELUM MULAI' => 'gray',
-                'BERLANGSUNG' => 'warning',
-                'SELESAI' => 'success',
-            }),
-            Tables\Columns\TextColumn::make('nama_event')->label('Event')
-            ->sortable()
-            ->searchable(),
-        ])
-        ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ])
-        ->emptyStateActions([
-            Tables\Actions\CreateAction::make(),
-        ]);
-}
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('nomor_event')->label('Nomor Event')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('nama_pertandingan')->label('Nama Pertandingan')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('negara')->label('Negara')  // This line is crucial!
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tanggal_dan_waktu')->label('Tanggal & Waktu')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('tanggal_selesai')->label('Tanggal Selesai')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'BELUM MULAI' => 'gray',
+                        'SEDANG BERLANGSUNG' => 'warning',
+                        'SELESAI' => 'success',
+                    }),
+                Tables\Columns\TextColumn::make('nama_event')->label('Event')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('perusahaan')->label('Perusahaan')
+                    ->sortable()
+                    ->searchable(),
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
+            ]);
+    }
 
 
     public static function getRelations(): array

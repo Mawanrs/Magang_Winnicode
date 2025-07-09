@@ -9,6 +9,6 @@ class KlasemenTim extends Model
     protected $table = 'klasemen_tims';
 
     protected $fillable = [
-        'kategori','pembalap','tahun', 'tim', 'poin', 'posisi','gap'
+        'kategori','pembalap', 'tim', 'poin', 'posisi','gap'
     ];
 }

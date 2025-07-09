@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('pembalaps', function (Blueprint $table) {
             $table->id();
-            $table->string('rider_number');
+            $table->string('kategori');
+            $table->string('kelas');
+            $table->string('rider_number')->nullable();
             $table->string('rider_name');
             $table->string('team');
             $table->string('flag_image')->nullable();  

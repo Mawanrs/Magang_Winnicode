@@ -24,8 +24,8 @@
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold winni-navbar-menu">
         <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal Pertandingan</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasmen</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Legenda</a></li>
         <li class="nav-item"><a class="nav-link px-3" href="/videos">Video</a></li>
         <li class="nav-item"><a class="nav-link px-3" href="/berita">Berita</a></li>
       </ul>
@@ -42,13 +42,13 @@
           </li>
         @else
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/profile') }}">Hai, {{ Auth::user()->name }}</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                style="color: #eee8e8; font-weight: 600;">Keluar</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Selamat Datang, {{ Auth::user()->name }}</a>
           </li>
         @endguest
       </ul>
@@ -78,19 +78,57 @@
     <a href="{{ url('/berita/'.$headline->slug) }}" class="winnicode-hero-btn">BACA SEKARANG</a>
   </div>
   <div class="winnicode-minicards-container">
-    <div class="winnicode-minicards-row d-flex justify-content-center">
-      {{-- Loop data --}}
+    <div class="winnicode-minicards-row d-flex justify-content-center flex-wrap">
       @foreach($news as $n)
-        <a href="{{ url('/berita/'.$n->slug) }}" class="winnicode-minicard">
-            <img src="{{ asset('storage/'.$n->image) }}" alt="thumb">
-            <div>
-                <div class="winnicode-minicard-title">{{ $n->title }}</div>
-                <div class="winnicode-minicard-time">{{ $n->created_at->diffForHumans() }}</div>
+      <a href="{{ url('/berita/'.$n->slug) }}" class="position-relative rounded overflow-hidden shadow-sm m-2" style="width: 300px; background-color: #2d2d2d; text-decoration: none;">
+
+          {{-- Gambar --}}
+          <div class="position-relative">
+            <img src="{{ asset('storage/'.$n->image) }}" alt="thumb" class="w-100" style="height: 180px; object-fit: cover;">
+
+            {{-- Label Jenis Konten --}}
+            <div class="position-absolute top-0 start-0 m-2 px-2 py-1 rounded bg-dark text-white d-flex align-items-center" style="font-size: 12px;">
+              <i class="fas fa-newspaper me-1"></i> Berita
+            </div>
+          </div>
+
+          {{-- Konten bawah (judul dan tanggal) --}}
+          <div class="p-3 text-white">
+            {{-- Judul --}}
+            <div class="fw-bold" style="font-size: 14px; line-height: 1.3;">
+              {{ $n->title }}
+            </div>
+            {{-- Tanggal --}}
+            <div class="text-muted mt-2" style="font-size: 13px;">
+              {{ \Carbon\Carbon::parse($n->created_at)->translatedFormat('d F Y') }}
+            </div>
+          </div>
+        </a>
+        @endforeach
+
+        @foreach($videos as $v)
+        <a href="{{ url('/videos/'.$v->slug) }}" class="position-relative rounded overflow-hidden shadow-sm m-2" style="width: 300px; background-color: #2d2d2d; text-decoration: none;">
+            {{-- Gambar Thumbnail --}}
+            <div class="position-relative">
+              <img src="{{ asset('storage/'.$v->thumbnail) }}" alt="thumb" class="w-100" style="height: 180px; object-fit: cover;">
+              {{-- Label Jenis Konten --}}
+              <div class="position-absolute top-0 start-0 m-2 px-2 py-1 rounded bg-dark text-white d-flex align-items-center" style="font-size: 12px;">
+                <i class="fas fa-play me-1"></i> {{ $v->duration }}
+              </div>
+            </div>
+            {{-- Konten bawah (judul dan tanggal) --}}
+            <div class="p-3 text-white">
+              <div class="fw-bold" style="font-size: 14px; line-height: 1.3;">
+                {{ $v->title }}
+              </div>
+              <div class="text-muted mt-2" style="font-size: 13px;">
+                {{ \Carbon\Carbon::parse($v->created_at)->translatedFormat('d F Y') }}
+              </div>
             </div>
         </a>
-      @endforeach
+        @endforeach
+      </div>
     </div>
-  </div>
 </div>
 @endif
 
@@ -104,7 +142,7 @@
   <ul class="list-unstyled ps-4 pe-4 mb-3" style="font-size:1.17em;">
     <li class="mb-3"><a href="/jadwal" class="text-dark text-decoration-none">Jadwal Pertandingan</a></li>
     <li class="mb-3"><a href="/hasil_dan_klasemen" class="text-dark text-decoration-none">Hasil & Klasemen</a></li>
-    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
+    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Legenda</a></li>
     <li class="mb-3"><a href="/videos" class="text-dark text-decoration-none">Video</a></li>
     <li class="mb-3"><a href="/berita" class="text-dark text-decoration-none">Berita</a></li>
   </ul>
@@ -254,26 +292,6 @@
   </div>
 </div>
 
-{{-- HIGHLIGHT SECTION --}}
-<div class="container">
-  <div class="highlight-section row align-items-center">
-    <div class="col-md-6 highlight-left">
-      <div class="highlight-title">
-        Momen Terbaik MotoGP™ 🏆 | GP Prancis 2025
-      </div>
-      <div class="highlight-desc">
-        Grand Prix tak terlupakan dengan drama dari awal hingga akhir, serta luapan emosional dalam wujud pemenang yang mengejutkan 🙌 Lihat momen-momen penting dari balapan gila di Le Mans 👀
-      </div>
-      <a href="#" class="highlight-btn">Baca Sekarang</a>
-    </div>
-    <div class="col-md-6 highlight-img-col">
-      <img src="{{ asset('storage/Highlight.webp') }}" alt="Highlight Momen" class="highlight-img">
-    </div>
-  </div>
-</div>
-
-<div class="container">
-
   {{-- VIDEO TERBARU --}}
   <div class="section-header d-flex justify-content-between align-items-center mb-3 mt-5">
       <div class="section-title">Video Terbaru</div>
@@ -313,33 +331,21 @@
           </svg>
       </a>
   </div>
-  <div class="video-grid">
-      @forelse($news as $item)
-      <div class="video-card">
-          <div class="video-thumb-wrap">
-              <img src="{{ asset('storage/'.$item->image) }}" class="video-thumb" alt="{{ $item->title }}">
-              <div class="video-overlay"></div>
-          </div>
-          <div class="video-info">
-              <div class="video-title">{{ $item->title }}</div>
-              <div class="video-desc">{{ \Illuminate\Support\Str::limit(strip_tags($item->content ?? ''), 70) }}</div>
-              <div class="video-date">{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</div>
-          </div>
-      </div>
-      @empty
-      <div class="video-card">
-          <div class="video-thumb-wrap">
-              <img src="{{ asset('storage/berita1.jpg') }}" class="video-thumb" alt="Berita">
-              <div class="video-overlay"></div>
-          </div>
-          <div class="video-info">
-              <div class="video-title">MotoGP Prancis Kacau!</div>
-              <div class="video-desc">Banyak insiden menegangkan sepanjang balapan.</div>
-              <div class="video-date">12 Mei 2025</div>
-          </div>
-      </div>
-      @endforelse
-  </div>
+<div class="video-grid">
+    @foreach($news as $item)
+    <div class="video-card">
+        <div class="video-thumb-wrap">
+            <img src="{{ asset('storage/'.$item->image) }}" alt="Berita" class="video-thumb">
+            <span class="video-duration"><i class="bi bi-newspaper"></i>Berita</span>
+            <div class="video-overlay"></div>
+        </div>
+        <div class="video-info">
+            <div class="video-title">{{ $item->title }}</div>
+            <div class="video-desc">{{ \Illuminate\Support\Str::limit(strip_tags($item->content), 70) }}</div>
+            <div class="video-date">{{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</div>
+        </div>
+    </div>
+    @endforeach
 </div>
 
 {{-- FOOTER --}}
@@ -358,7 +364,7 @@
         <ul>
           <li><a href="/jadwal">Jadwal Pertandingan</a></li>
           <li><a href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
-          <li><a href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+          <li><a href="/pembalap_dan_tim">Pembalap & Legenda</a></li>
           <li><a href="/videos">Video</a></li>
           <li><a href="/berita">Berita</a></li>
         </ul>

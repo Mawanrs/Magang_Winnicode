@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container-fluid">
@@ -80,4 +80,4 @@
         <!-- End Main Content -->
     </div>
 </div>
-@endsection
+@endsection --}}

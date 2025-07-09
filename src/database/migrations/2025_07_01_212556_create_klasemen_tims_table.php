@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('kategori');
             $table->string('pembalap');
-            $table->year('tahun');
             $table->string('tim');
             $table->integer('poin');
             $table->integer('posisi');

@@ -19,8 +19,8 @@
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold winni-navbar-menu">
         <li class="nav-item"><a class="nav-link px-3" href="/jadwal">Jadwal Pertandingan</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasmen</a></li>
-        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/pembalap_dan_tim">Pembalap & Legenda</a></li>
         <li class="nav-item"><a class="nav-link px-3" href="/videos">Video</a></li>
         <li class="nav-item"><a class="nav-link px-3" href="/berita">Berita</a></li>
       </ul>
@@ -61,7 +61,7 @@
   <ul class="list-unstyled ps-4 pe-4 mb-3" style="font-size:1.17em;">
     <li class="mb-3"><a href="/jadwal" class="text-dark text-decoration-none">Jadwal Pertandingan</a></li>
     <li class="mb-3"><a href="/hasil_dan_klasemen" class="text-dark text-decoration-none">Hasil & Klasemen</a></li>
-    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Tim</a></li>
+    <li class="mb-3"><a href="/pembalap_dan_tim" class="text-dark text-decoration-none">Pembalap & Legenda</a></li>
     <li class="mb-3"><a href="/videos" class="text-dark text-decoration-none">Video</a></li>
     <li class="mb-3"><a href="/berita" class="text-dark text-decoration-none">Berita</a></li>
   </ul>
@@ -110,7 +110,7 @@
         <ul>
           <li><a href="/jadwal">Jadwal Pertandingan</a></li>
           <li><a href="/hasil-dan-klasemen">Hasil & Klasemen</a></li>
-          <li><a href="/pembalap_dan_tim">Pembalap & Tim</a></li>
+          <li><a href="/pembalap_dan_tim">Pembalap & Legenda</a></li>
           <li><a href="/videos">Video</a></li>
           <li><a href="/berita">Berita</a></li>
         </ul>
@@ -140,5 +140,21 @@
         </div>
     </div>
   </footer>
-  
+  {{-- === SIDEBAR JS === --}}
+  <script>
+    const sidebar = document.getElementById('sidebarMenu');
+    const openBtn = document.getElementById('openSidebarBtn');
+    const closeBtn = document.getElementById('closeSidebarBtn');
+    const overlay = document.getElementById('sidebarOverlay');
+    openBtn.onclick = function() {
+      sidebar.style.left = '0'; overlay.style.display = 'block'; document.body.style.overflow = 'hidden';
+    };
+    closeBtn.onclick = overlay.onclick = function() {
+      sidebar.style.left = '-320px'; overlay.style.display = 'none'; document.body.style.overflow = '';
+    };
+    window.addEventListener('keydown', function(e){
+      if(e.key==='Escape') { sidebar.style.left = '-320px'; overlay.style.display = 'none'; document.body.style.overflow = ''; }
+    });
+  </script>
+
 @endsection
