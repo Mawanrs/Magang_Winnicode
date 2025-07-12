@@ -11,10 +11,31 @@ use App\Models\KlasemenTim;
 use App\Models\HasilBalapan;
 use App\Models\HasilKlasemen;
 use App\Models\JadwalPertandingan;
+use Blaspsoft\Blasp\Facades\Blasp;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
+        public function addCustomBadWords($text)
+    {
+        // Bad words in Indonesian
+        $badWordsID = ['anjing', 'kontol', 'memek', 'bodoh', 'tai']; // Add more words as needed
+        
+        // Bad words in English
+        $badWordsEN = ['ass', 'bitch', 'damn', 'shit', 'fuck']; // Add more words as needed
+
+        // Merge both arrays of bad words
+        $badWords = array_merge($badWordsID, $badWordsEN);
+
+        // Replace bad words with ***
+        foreach ($badWords as $word) {
+            $text = str_ireplace($word, '***', $text);
+        }
+
+        return $text;
+    }
+
     public function home()
     {
         $headline = News::latest()->first();
@@ -76,11 +97,32 @@ class FrontendController extends Controller
             'isi'   => 'required|string|max:2000',
         ]);
 
+        // Apply Blasp profanity check
+        $blasp = Blasp::check($validated['isi']);
+
+        // Get cleaned string and check if it has profanity
+        $cleanedIsi = $blasp->getCleanString();  // Cleaned string with profanity replaced
+        $hasProfanity = $blasp->hasProfanity();  // true if profanity is found
+
+        // If profanity is found, you can choose to either reject the comment or warn the user
+        if ($hasProfanity) {
+            return redirect()->back()->with('error', 'Komentar mengandung kata kasar!');
+        }
+
+        // Now apply the custom bad words filter (e.g., Bahasa Indonesia and English)
+        $cleanedIsi = $this->addCustomBadWords($cleanedIsi);  // Custom bad words filtering
+
+        // If there are still bad words after custom filtering, reject the comment
+        if ($cleanedIsi !== $validated['isi']) {
+            return redirect()->back()->with('error', 'Komentar mengandung kata kasar!');
+        }
+
+        // Store the cleaned comment
         Komentar::create([
             'news_id' => $berita->id,
             'nama'    => $validated['nama'],
             'email'   => $validated['email'] ?? null,
-            'isi'     => $validated['isi'],
+            'isi'     => $cleanedIsi,  // Save the cleaned comment
         ]);
 
         return redirect()->back()->with('success', 'Komentar berhasil dikirim!');
