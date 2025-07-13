@@ -209,7 +209,7 @@ class FrontendController extends Controller
             'tidakDiklasifikasikan',
             'kategori',
             'cuaca'
-        ));
+        ))->with('cuaca', $cuaca ?: 'default_value');
     }
 
     // Menampilkan Klasemen Tim

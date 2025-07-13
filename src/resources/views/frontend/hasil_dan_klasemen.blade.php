@@ -116,23 +116,23 @@
         <div class="weather-info">
             <span>
                 <i class="bi bi-cloud" style="font-size: 1.2rem; margin-right: 5px;"></i>
-                <strong>Cuaca:</strong> {{ $cuaca->cuaca }}
+                <strong>Cuaca:</strong> {{ $cuaca->cuaca ?? 'Data tidak tersedia' }}
             </span>
             <span>
                 <i class="bi bi-thermometer" style="font-size: 1.2rem; margin-right: 5px;"></i>
-                <strong>Suhu Udara:</strong> {{ $cuaca->suhu_udara }}º
+                <strong>Suhu Udara:</strong> {{ $cuaca->suhu_udara ?? 'Data tidak tersedia' }}º
             </span>
             <span>
                 <i class="bi bi-thermometer" style="font-size: 1.2rem; margin-right: 5px;"></i>
-                <strong>Suhu Tanah:</strong> {{ $cuaca->suhu_tanah }}º
+                <strong>Suhu Tanah:</strong> {{ $cuaca->suhu_tanah ?? 'Data tidak tersedia' }}º
             </span>
             <span>
                 <i class="bi bi-droplet" style="font-size: 1.2rem; margin-right: 5px;"></i>
-                <strong>Kelembapan:</strong> {{ $cuaca->kelembapan }}%
+                <strong>Kelembapan:</strong> {{ $cuaca->kelembapan ?? 'Data tidak tersedia' }}%
             </span>
             <span>
                 <i class="bi bi-flag" style="font-size: 1.2rem; margin-right: 5px;"></i>
-                <strong>Lintasan:</strong> {{ $cuaca->kondisi_lintasan }}
+                <strong>Lintasan:</strong> {{ $cuaca->kondisi_lintasan ?? 'Data tidak tersedia' }}
             </span>
         </div>
 
