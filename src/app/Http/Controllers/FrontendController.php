@@ -121,7 +121,6 @@ class FrontendController extends Controller
         Komentar::create([
             'news_id' => $berita->id,
             'nama'    => $validated['nama'],
-            'email'   => $validated['email'] ?? null,
             'isi'     => $cleanedIsi,  // Save the cleaned comment
         ]);
 

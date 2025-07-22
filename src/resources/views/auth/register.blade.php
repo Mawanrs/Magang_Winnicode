@@ -23,6 +23,14 @@
         @enderror
       </div>
 
+      <div class="mb-3 text-start">
+        <label for="registerEmail" class="form-label">Email</label>
+        <input type="email" class="form-control @error('email') is-invalid @enderror" id="registerEmail" name="email" value="{{ old('email') }}" placeholder="Email" required>
+        @error('email')
+          <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+      </div>
+      
       <div class="mb-3 text-start position-relative">
         <label for="registerPassword" class="form-label">Password</label>
         <input type="password" class="form-control @error('password') is-invalid @enderror" id="registerPassword" name="password" placeholder="Password" required>

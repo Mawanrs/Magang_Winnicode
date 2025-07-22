@@ -67,42 +67,46 @@
             {!! $berita->content !!}
         </div>
 
-        {{-- Komentar Section --}}
-        <div class="berita-komentar-wrapper">
-            <div class="berita-komentar-title">Komentar</div>
+{{-- Komentar Section --}}
+<div class="berita-komentar-wrapper">
+    <div class="berita-komentar-title">Komentar</div>
 
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-            <form action="{{ route('berita.komentar', $berita->slug) }}" method="POST" class="berita-komentar-form mb-3">
-                @csrf
-                <input type="text" name="nama" placeholder="Nama" value="{{ old('nama') }}" required>
-                @error('nama') <div class="text-danger small">{{ $message }}</div> @enderror
+    @auth
+        {{-- Form Komentar hanya muncul untuk pengguna yang sudah login --}}
+        <form action="{{ route('berita.komentar', $berita->slug) }}" method="POST" class="berita-komentar-form mb-3">
+            @csrf
+            <input type="text" name="nama" placeholder="Nama" value="{{ old('nama') }}" required>
+            @error('nama') <div class="text-danger small">{{ $message }}</div> @enderror
 
-                <input type="email" name="email" placeholder="Email (opsional)" value="{{ old('email') }}">
-                @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
+            <textarea name="isi" rows="3" placeholder="Tulis komentar..." required>{{ old('isi') }}</textarea>
+            @error('isi') <div class="text-danger small">{{ $message }}</div> @enderror
 
-                <textarea name="isi" rows="3" placeholder="Tulis komentar..." required>{{ old('isi') }}</textarea>
-                @error('isi') <div class="text-danger small">{{ $message }}</div> @enderror
+            <button type="submit" class="btn-kirim-komentar">Kirim</button>
+        </form>
+    @else
+        {{-- Jika pengguna belum login, tampilkan pesan dan link untuk login --}}
+        <div class="alert alert-warning">Anda perlu <a href="{{ route('login') }}">login</a> terlebih dahulu untuk memberikan komentar.</div>
+    @endauth
 
-                <button type="submit" class="btn-kirim-komentar">Kirim</button>
-            </form>
+    <div class="berita-komentar-list">
+        @if($berita->komentars && $berita->komentars->count())
+            @foreach($berita->komentars as $komentar)
+                <div class="berita-komentar-item">
+                    <div class="berita-komentar-nama">{{ $komentar->nama }}</div>
+                    <div class="berita-komentar-tgl">{{ \Carbon\Carbon::parse($komentar->created_at)->diffForHumans() }}</div>
+                    <div class="berita-komentar-isi">{{ $komentar->isi }}</div>
+                </div>
+            @endforeach
+        @else
+            <div class="berita-komentar-empty">Belum ada komentar.</div>
+        @endif
+    </div>
+</div>
 
-            <div class="berita-komentar-list">
-                @if($berita->komentars && $berita->komentars->count())
-                    @foreach($berita->komentars as $komentar)
-                        <div class="berita-komentar-item">
-                            <div class="berita-komentar-nama">{{ $komentar->nama }}</div>
-                            <div class="berita-komentar-tgl">{{ \Carbon\Carbon::parse($komentar->created_at)->diffForHumans() }}</div>
-                            <div class="berita-komentar-isi">{{ $komentar->isi }}</div>
-                        </div>
-                    @endforeach
-                @else
-                    <div class="berita-komentar-empty">Belum ada komentar.</div>
-                @endif
-            </div>
-        </div>
     </div>
 
     <aside class="berita-main-right">

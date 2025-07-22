@@ -4,17 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\JadwalPertandinganController;
-use App\Http\Controllers\HasilKlasemenController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\Admin\NewsController;
-use App\Http\Controllers\Admin\VideoController;
-use App\Http\Controllers\Admin\PembalapController;
-use App\Http\Controllers\Admin\TimController;
-use App\Http\Controllers\Admin\KomentarController;
-use App\Http\Controllers\Admin\PengaturanController;
-use App\Http\Controllers\Admin\HasilBalapanController;
-use App\Http\Controllers\Admin\KlasemenTimController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
@@ -41,7 +30,7 @@ Route::get('/jadwal', [FrontendController::class, 'schedule']);
 Route::get('/pembalap_dan_tim', [FrontendController::class, 'pembalap']);
 Route::get('/berita', [FrontendController::class, 'berita'])->name('berita');
 Route::get('/berita/{slug}', [FrontendController::class, 'berita_detail'])->name('berita.detail');
-Route::post('/berita/{slug}/komentar', [\App\Http\Controllers\FrontendController::class, 'storeKomentar'])->name('berita.komentar');
+Route::post('/berita/{slug}/komentar', [FrontendController::class, 'storeKomentar'])->name('berita.komentar')->middleware('auth');
 Route::get('/hasil-dan-klasemen', [FrontendController::class, 'hasilKlasemen'])->name('hasil_dan_klasemen');
 Route::get('/hasil-balapan', [FrontendController::class, 'hasilBalapan'])->name('hasil.balapan');
 Route::get('/klasemen-tim', [FrontendController::class, 'klasemenTim'])->name('klasemen.tim');
@@ -62,8 +51,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//  Login dan Register
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+// Login dan Register
+Route::get('/login', function () {
+    // Menyimpan URL yang diminta sebelumnya ke session
+    session(['url.intended' => url()->previous()]);
+    return view('auth.login');
+})->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');

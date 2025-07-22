@@ -36,13 +36,13 @@
           </li>
         @else
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/profile') }}">Hai, {{ Auth::user()->name }}</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                style="color: #eee8e8; font-weight: 600;">Keluar</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/profile') }}">Selamat Datang, {{ Auth::user()->name }}</a>
           </li>
         @endguest
       </ul>

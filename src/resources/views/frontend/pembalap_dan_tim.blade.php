@@ -32,7 +32,6 @@
                     <li class="nav-item"><span class="winni-auth-divider">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/register') }}">Daftar</a></li>
                 @else
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/profile') }}">Hai, {{ Auth::user()->name }}</a></li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}"
 
@@ -41,6 +40,7 @@
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST">@csrf</form>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/profile') }}">Selamat Datang, {{ Auth::user()->name }}</a></li>
                 @endguest
             </ul>
         </div>
