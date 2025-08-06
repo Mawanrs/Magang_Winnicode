@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('penulis');
             $table->string('image')->nullable();
             $table->text('content');
+            $table->enum('status', ['Belum Diverifikasi', 'Sudah Diverifikasi'])->default('Belum Diverifikasi');
             $table->timestamps();
         });
     }

@@ -73,12 +73,48 @@ class FrontendController extends Controller
         ));
     }
 
+    public function verifyBerita($id)
+    {
+        // Temukan berita berdasarkan ID
+        $berita = News::findOrFail($id);
+
+        // Periksa apakah status berita sudah diverifikasi
+        if ($berita->status == 'Sudah Diverifikasi') {
+            return redirect()->back()->with('error', 'Berita sudah diverifikasi!');
+        }
+
+        // Verifikasi berita
+        $berita->update(['status' => 'Sudah Diverifikasi']);
+
+        // Redirect ke halaman index berita
+        return redirect()->route('berita')->with('success', 'Berita berhasil diverifikasi!');
+    }
+
+    // Menangani aksi untuk mem-publish berita
+    public function publishAction($id)
+    {
+        // Find the berita (news) by its ID
+        $berita = News::findOrFail($id);
+
+        // Check if the berita is not already verified
+        if ($berita->status == 'Belum Diverifikasi') {
+            return redirect()->back()->with('error', 'Berita belum diverifikasi, tidak bisa dipublikasikan!');
+        }
+
+        // Update the status to 'Sudah Diverifikasi'
+        $berita->update(['status' => 'Sudah Diverifikasi']);
+
+        // Redirect with success message
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dipublikasikan!');
+    }
+
     public function berita()
     {
-        $news = News::latest()->paginate(8);
-        $headline = News::latest()->first();
+        $news = News::where('status', 'Sudah Diverifikasi')->latest()->paginate(8);
+        $headline = News::where('status', 'Sudah Diverifikasi')->latest()->first();
         return view('frontend.berita', compact('news', 'headline'));
     }
+
 
     public function berita_detail($slug)
     {

@@ -30,26 +30,20 @@ Route::get('/jadwal', [FrontendController::class, 'schedule']);
 Route::get('/pembalap_dan_tim', [FrontendController::class, 'pembalap']);
 Route::get('/berita', [FrontendController::class, 'berita'])->name('berita');
 Route::get('/berita/{slug}', [FrontendController::class, 'berita_detail'])->name('berita.detail');
+Route::post('/berita/{id}/publish', [FrontendController::class, 'publishNews'])->name('publish');
 Route::post('/berita/{slug}/komentar', [FrontendController::class, 'storeKomentar'])->name('berita.komentar')->middleware('auth');
 Route::get('/hasil-dan-klasemen', [FrontendController::class, 'hasilKlasemen'])->name('hasil_dan_klasemen');
 Route::get('/hasil-balapan', [FrontendController::class, 'hasilBalapan'])->name('hasil.balapan');
 Route::get('/klasemen-tim', [FrontendController::class, 'klasemenTim'])->name('klasemen.tim');
-Route::get('/cuaca', [CuacaController::class, 'index'])->name('cuaca.index');
+Route::get('/cuaca', [FrontendController::class, 'index'])->name('cuaca.index');
 Route::post('/cuaca', [FrontendController::class, 'update'])->middleware('auth')->name('cuaca.update');
 Route::get('/detail_berita', [FrontendController::class, 'detail_berita']);
 Route::get('/videos', [FrontendController::class, 'video'])->name('videos');
 Route::get('/videos/{slug}', [FrontendController::class, 'videoDetail'])->name('video.detail');
-    
 
-
-//  Frontend Profile
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [UserProfileController::class, 'show'])->name('frontend.profile.show');
-    Route::get('/profile/edit', [UserProfileController::class, 'edit'])->name('frontend.profile.edit');
-    Route::get('/profile/change-email', [UserProfileController::class, 'changeEmail'])->name('frontend.profile.change-email');
-    Route::post('/profile', [UserProfileController::class, 'update'])->name('frontend.profile.update');
-});
-
+Route::post('/admin/berita/verify/{id}', [FrontendController::class, 'verifyBerita'])->name('admin.berita.verify');
+Route::post('/admin/berita/publish/{id}', [FrontendController::class, 'publishAction'])->name('admin.berita.publish');
+Route::get('/admin/berita', [FrontendController::class, 'berita'])->name('admin.berita.index');
 
 // Login dan Register
 Route::get('/login', function () {

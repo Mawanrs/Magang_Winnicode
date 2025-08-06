@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,47 +41,65 @@ class BeritaResource extends Resource
         ];
     }
 
-    public static function table(Table $table): Table
-{
-    return $table
-        ->columns([
-            Tables\Columns\TextColumn::make('id')
-                ->sortable(),
+        public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable(),
 
-            Tables\Columns\TextColumn::make('title')
-                ->label('Judul')
-                ->sortable()
-                ->searchable(),
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Judul')
+                    ->sortable()
+                    ->searchable(),
 
-            Tables\Columns\TextColumn::make('slug')
-                ->label('Slug')
-                ->sortable()
-                ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
+                    ->sortable()
+                    ->searchable(),
 
-            Tables\Columns\TextColumn::make('penulis')
-                ->label('Penulis')
-                ->sortable()
-                ->searchable(),
+                Tables\Columns\TextColumn::make('penulis')
+                    ->label('Penulis')
+                    ->sortable()
+                    ->searchable(),
 
-            Tables\Columns\ImageColumn::make('image')
-                ->label('Gambar')
-                ->disk('public')
-                ->circular(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Gambar')
+                    ->disk('public')
+                    ->circular(),
 
-            Tables\Columns\TextColumn::make('created_at')
-                ->date('d-m-Y')
-                ->label('Tgl Dibuat')
-                ->sortable(),
-        ])
-        ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
-        ->emptyStateActions([
-            Tables\Actions\CreateAction::make(),
-        ]);
-}
+                Tables\Columns\SelectColumn::make('status')
+                    ->label('Status Verifikasi')
+                    ->options([
+                        'Belum Diverifikasi' => 'Belum Diverifikasi',
+                        'Sudah Diverifikasi' => 'Sudah Diverifikasi',
+                    ])
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->date('d-m-Y')
+                    ->label('Tgl Dibuat')
+                    ->sortable(),
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                
+                // Tambahkan publish action
+                Action::make('publish')
+                    ->label('Publish')
+                    ->action(function (Model $record) {
+                        return static::publishAction($record);
+                    })
+                    ->color('success'),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
+            ]);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -112,8 +131,33 @@ class BeritaResource extends Resource
                 Forms\Components\RichEditor::make('content')
                     ->label('Konten Berita')
                     ->required(),
+                
+                Forms\Components\Select::make('status')
+                    ->label('Status Verifikasi')
+                    ->options([
+                        'Belum Diverifikasi' => 'Belum Diverifikasi',
+                        'Sudah Diverifikasi' => 'Sudah Diverifikasi',
+                    ])
+                    ->default('Belum Diverifikasi')
+                    ->required(),
             ]);
     }
+
+    public static function publishAction(Model $record)
+    {
+        // Periksa apakah status berita sudah diverifikasi
+        if ($record->status == 'Belum Diverifikasi') {
+            // Tampilkan pesan error jika berita belum diverifikasi
+            return redirect()->back()->with('error', 'Berita belum diverifikasi, tidak bisa dipublikasikan!');
+        }
+
+        // Proses untuk mem-publish berita
+        $record->update(['status' => 'Sudah Diverifikasi']); // Mengupdate status menjadi 'Sudah Diverifikasi'
+
+        // Redirect ke halaman index berita admin
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dipublikasikan!');
+    }
+
 
     public static function getRelations(): array
     {
@@ -122,7 +166,7 @@ class BeritaResource extends Resource
         ];
     }
 
-    public static function getPages(): array
+        public static function getPages(): array
     {
         return [
             'index' => Pages\ListBerita::route('/'),
@@ -130,4 +174,5 @@ class BeritaResource extends Resource
             'edit' => Pages\EditBerita::route('/{record}/edit'),
         ];
     }
+
 }
